@@ -1,0 +1,45 @@
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : syed
+Student ID   : 1
+Average Score: 49.00
+Status       : AT RISK
+Weak Subjects: math (49.0)
+Recommendations:
+  - [math] Recommended topics:
+  -    -> Review Arithmetic Fundamentals
+  -    -> Practice Problem-Solving Strategies
+  -    -> Study Number Theory Basics
+Timestamp    : 2026-02-20 01:47:37
+============================================
+
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : zaid
+Student ID   : 2
+Average Score: 70.00
+Status       : Normal
+Weak Subjects: None
+Recommendations:
+  - Great job! No weak subjects detected. Keep up the good work!
+Timestamp    : 2026-02-20 01:48:05
+============================================
+
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : syed
+Student ID   : 1
+Average Score: 49.00
+Status       : AT RISK
+Weak Subjects: m1 (49.0)
+Recommendations:
+  - [m1] Recommended topics:
+  -    -> Review foundational concepts in m1
+  -    -> Practice past exam questions for m1
+  -    -> Seek tutoring or additional study materials for m1
+Timestamp    : 2026-02-20 02:20:54
+============================================
+

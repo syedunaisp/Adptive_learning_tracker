@@ -6,23 +6,27 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- * A custom button that enforces specific styling (background color, rounded
- * corners)
- * regardless of the underlying Look and Feel (e.g., Windows).
+ * Custom styled button with:
+ * - Rounded corners
+ * - Darken-on-hover effect (not brighten)
+ * - Hand cursor
+ * - Smooth antialiased rendering
+ *
+ * UPGRADED: Uses darken effect instead of brighten for professional look.
  */
 public class StyledButton extends JButton {
 
     private boolean isHovered = false;
+    private boolean isPressed = false;
 
     public StyledButton(String text) {
         super(text);
-        setContentAreaFilled(false); // Disable native background painting
-        setFocusPainted(false); // Remove focus border
-        setBorderPainted(false); // Handle border manually if needed
-        setOpaque(false); // Transparent so we can paint a rounded shape
+        setContentAreaFilled(false);
+        setFocusPainted(false);
+        setBorderPainted(false);
+        setOpaque(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Add hover listener
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -33,6 +37,19 @@ public class StyledButton extends JButton {
             @Override
             public void mouseExited(MouseEvent e) {
                 isHovered = false;
+                isPressed = false;
+                repaint();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                isPressed = true;
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                isPressed = false;
                 repaint();
             }
         });
@@ -43,29 +60,33 @@ public class StyledButton extends JButton {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Determine background color
-        // If we are hovered, slightly brighten or darken the color
         Color bgColor = getBackground();
-        if (isHovered) {
-            bgColor = bgColor.brighter();
+
+        if (isPressed) {
+            bgColor = darken(bgColor, 0.75);
+        } else if (isHovered) {
+            bgColor = darken(bgColor, 0.85);
         }
 
         // Paint rounded rectangle background
         g2.setColor(bgColor);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
 
-        // Paint text (and icon if any)
-        super.paintComponent(g); // This paints the text/icon relative to component
+        // Paint text/icon
+        super.paintComponent(g);
 
         g2.dispose();
     }
 
     /**
-     * Overridden to ensure text is painted correctly on top of our custom
-     * background.
-     * We don't need to do much here since super.paintComponent(g) does the text
-     * painting,
-     * but we rely on the setContentAreaFilled(false) to stop it from painting the
-     * native block.
+     * Darkens a color by the given factor (0.0 = black, 1.0 = unchanged).
      */
+    private Color darken(Color c, double factor) {
+        return new Color(
+                Math.max((int) (c.getRed() * factor), 0),
+                Math.max((int) (c.getGreen() * factor), 0),
+                Math.max((int) (c.getBlue() * factor), 0),
+                c.getAlpha()
+        );
+    }
 }

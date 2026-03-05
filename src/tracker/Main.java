@@ -1,35 +1,59 @@
 package tracker;
 
-import tracker.ui.MainFrame;
+import tracker.data.DBConnectionManager;
+import tracker.data.DatabaseSchema;
+import tracker.ui.LoginFrame;
 
 import javax.swing.*;
 
 /**
  * Application entry point.
- * Launches the MainFrame on the Swing Event Dispatch Thread.
  *
- * No business logic resides here -- this class exists solely
- * to bootstrap the GUI.
+ * UPGRADED: Now initializes the SQLite database and schema before
+ * launching the LoginFrame. The DB is created automatically on first run
+ * with default roles, admin user, and configuration values.
+ *
+ * Startup sequence:
+ *   1. Load SQLite JDBC driver
+ *   2. Initialize database schema (CREATE TABLE IF NOT EXISTS)
+ *   3. Seed default data (roles, admin user, config)
+ *   4. Apply UI defaults
+ *   5. Launch LoginFrame
  */
 public class Main {
 
     public static void main(String[] args) {
-        // Set system look-and-feel for a native appearance
+        // --- Phase 1: Initialize Database ---
+        System.out.println("ALIP v3.0 — Initializing database...");
+        try {
+            DBConnectionManager.initialize();
+            DatabaseSchema.initializeSchema();
+            System.out.println("Database ready.");
+        } catch (Exception e) {
+            System.err.println("FATAL: Database initialization failed: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                "Database initialization failed:\n" + e.getMessage() +
+                "\n\nEnsure sqlite-jdbc JAR is on the classpath.",
+                "ALIP — Startup Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+
+        // --- Phase 2: Set Look-and-Feel ---
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
-            // Fall back to default look-and-feel silently
             System.err.println("Could not set system look and feel: " + e.getMessage());
         }
 
         // Apply global UI defaults from StyleConstants
         tracker.ui.StyleConstants.configureUIManager();
 
-        // Launch GUI on the Event Dispatch Thread (EDT)
+        // --- Phase 3: Launch Login Screen ---
         SwingUtilities.invokeLater(() -> {
-            MainFrame frame = new MainFrame();
-            frame.setVisible(true);
+            LoginFrame login = new LoginFrame();
+            login.setVisible(true);
         });
     }
 }

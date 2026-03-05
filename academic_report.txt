@@ -43,3 +43,1053 @@ Recommendations:
 Timestamp    : 2026-02-20 02:20:54
 ============================================
 
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : syed
+Student ID   : 1
+Average Score: 49.00
+Status       : AT RISK
+Weak Subjects: math (49.0)
+Recommendations:
+  - [math] Recommended topics:
+  -    -> Review Arithmetic Fundamentals
+  -    -> Practice Problem-Solving Strategies
+  -    -> Study Number Theory Basics
+Timestamp    : 2026-02-20 14:41:02
+============================================
+
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : syed
+Student ID   : 1
+Average Score: 69.50
+Status       : Normal
+Weak Subjects: math (49.0)
+Recommendations:
+  - [math] Recommended topics:
+  -    -> Review Arithmetic Fundamentals
+  -    -> Practice Problem-Solving Strategies
+  -    -> Study Number Theory Basics
+Timestamp    : 2026-02-20 14:47:09
+============================================
+
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : zaid
+Student ID   : 2
+Average Score: 60.00
+Status       : Normal
+Weak Subjects: None
+Recommendations:
+  - Great job! No weak subjects detected. Keep up the good work!
+Timestamp    : 2026-02-20 14:47:42
+============================================
+
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : omar
+Student ID   : 3
+Average Score: 40.00
+Status       : AT RISK
+Weak Subjects: math (40.0)
+Recommendations:
+  - [math] Recommended topics:
+  -    -> Review Arithmetic Fundamentals
+  -    -> Practice Problem-Solving Strategies
+  -    -> Study Number Theory Basics
+Timestamp    : 2026-02-20 14:48:23
+============================================
+
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : unais
+Student ID   : 4
+Average Score: 40.00
+Status       : AT RISK
+Weak Subjects: math (40.0)
+Recommendations:
+  - [math] Recommended topics:
+  -    -> Review Arithmetic Fundamentals
+  -    -> Practice Problem-Solving Strategies
+  -    -> Study Number Theory Basics
+Timestamp    : 2026-02-20 15:00:00
+============================================
+
+============================================
+        ACADEMIC REPORT
+============================================
+Student Name : hussain
+Student ID   : 5
+Average Score: 40.00
+Status       : AT RISK
+Weak Subjects: chem (40.0)
+Recommendations:
+  - [chem] Recommended topics:
+  -    -> Review foundational concepts in chem
+  -    -> Practice past exam questions for chem
+  -    -> Seek tutoring or additional study materials for chem
+Timestamp    : 2026-02-20 15:00:54
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 40.00
+Risk Level   : High Risk
+Risk Score   : 67.0 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  math                 :  40.00 [WEAK]
+--------------------------------------------
+Weak Subjects: math (40.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 60.0/100 -> weighted 21.0 (avg=40.0, weight=35%)
+  Weak Subject Density: 100.0% (1/1 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 60.0/100 -> weighted 15.0 (lowest=40.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 67.0 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 67.0/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Stable but at risk -- current efforts are not sufficient.
+     -> Intensify study habits and seek additional support.
+--------------------------------------------
+Timestamp    : 2026-02-27 01:46:12
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 45.00
+Risk Level   : High Risk
+Risk Score   : 60.8 / 100
+Trend        : Improving (^)
+--------------------------------------------
+Subjects:
+  math                 :  40.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+--------------------------------------------
+Weak Subjects: math (40.0), chem (50.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 55.0/100 -> weighted 19.3 (avg=45.0, weight=35%)
+  Weak Subject Density: 100.0% (2/2 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 60.0/100 -> weighted 15.0 (lowest=40.0, weight=25%)
+  Trend Bonus: IMPROVING -> 10.0/100, weighted 1.5 (weight=15%)
+  TOTAL RISK SCORE: 60.8 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 60.8/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is IMPROVING.
+     -> Positive momentum detected! Continue current strategies.
+     -> Build on this progress by setting stretch goals.
+--------------------------------------------
+Timestamp    : 2026-02-27 01:46:33
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 33.33
+Risk Level   : High Risk
+Risk Score   : 82.8 / 100
+Trend        : Declining (v)
+--------------------------------------------
+Subjects:
+  math                 :  40.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+--------------------------------------------
+Weak Subjects: math (40.0), chem (50.0), phy (10.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 66.7/100 -> weighted 23.3 (avg=33.3, weight=35%)
+  Weak Subject Density: 100.0% (3/3 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 90.0/100 -> weighted 22.5 (lowest=10.0, weight=25%)
+  Trend Penalty: DECLINING -> 80.0/100, weighted 12.0 (weight=15%)
+  TOTAL RISK SCORE: 82.8 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 82.8/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+     -> Multiple subject failures detected -- consider a reduced course load.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is DECLINING.
+     -> Identify recent changes (attendance, study habits, personal issues).
+     -> Consider meeting with a counselor or mentor.
+     -> URGENT: Declining trend combined with high risk demands immediate action.
+--------------------------------------------
+Timestamp    : 2026-02-27 01:46:47
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 27.50
+Risk Level   : High Risk
+Risk Score   : 84.9 / 100
+Trend        : Declining (v)
+--------------------------------------------
+Subjects:
+  math                 :  40.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+  accounts             :  10.00 [WEAK]
+--------------------------------------------
+Weak Subjects: math (40.0), chem (50.0), phy (10.0), accounts (10.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 72.5/100 -> weighted 25.4 (avg=27.5, weight=35%)
+  Weak Subject Density: 100.0% (4/4 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 90.0/100 -> weighted 22.5 (lowest=10.0, weight=25%)
+  Trend Penalty: DECLINING -> 80.0/100, weighted 12.0 (weight=15%)
+  TOTAL RISK SCORE: 84.9 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 84.9/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+     -> Multiple subject failures detected -- consider a reduced course load.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [accounts] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is DECLINING.
+     -> Identify recent changes (attendance, study habits, personal issues).
+     -> Consider meeting with a counselor or mentor.
+     -> URGENT: Declining trend combined with high risk demands immediate action.
+--------------------------------------------
+Timestamp    : 2026-02-27 01:46:59
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 27.50
+Risk Level   : High Risk
+Risk Score   : 78.9 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  math                 :  40.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+  accounts             :  10.00 [WEAK]
+  english              :  27.50 [WEAK]
+--------------------------------------------
+Weak Subjects: math (40.0), chem (50.0), phy (10.0), accounts (10.0), english (27.5)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 72.5/100 -> weighted 25.4 (avg=27.5, weight=35%)
+  Weak Subject Density: 100.0% (5/5 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 90.0/100 -> weighted 22.5 (lowest=10.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 78.9 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 78.9/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+     -> Multiple subject failures detected -- consider a reduced course load.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [accounts] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [english] Score: 27.5 | Category: Language & Literature
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Stable but at risk -- current efforts are not sufficient.
+     -> Intensify study habits and seek additional support.
+--------------------------------------------
+Timestamp    : 2026-02-27 01:47:15
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 27.92
+Risk Level   : High Risk
+Risk Score   : 78.7 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  math                 :  40.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+  accounts             :  10.00 [WEAK]
+  english              :  27.50 [WEAK]
+  hindi                :  30.00 [WEAK]
+--------------------------------------------
+Weak Subjects: math (40.0), chem (50.0), phy (10.0), accounts (10.0), english (27.5), hindi (30.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 72.1/100 -> weighted 25.2 (avg=27.9, weight=35%)
+  Weak Subject Density: 100.0% (6/6 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 90.0/100 -> weighted 22.5 (lowest=10.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 78.7 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 78.7/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+     -> Multiple subject failures detected -- consider a reduced course load.
+  [CATEGORY ALERT] Weakness across entire Language & Literature category
+     -> This suggests foundational gaps in Language & Literature.
+     -> Consider enrolling in a bridging/remedial program for Language & Literature.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [accounts] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [english] Score: 27.5 | Category: Language & Literature
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [hindi] Score: 30.0 | Category: Language & Literature
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Stable but at risk -- current efforts are not sufficient.
+     -> Intensify study habits and seek additional support.
+--------------------------------------------
+Timestamp    : 2026-02-27 01:47:24
+============================================
+
+################################################################
+          BULK ACADEMIC REPORT EXPORT
+          Generated: 2026-02-27 01:48:17
+          Total Students: 1
+################################################################
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 27.92
+Risk Level   : High Risk
+Risk Score   : 78.7 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  math                 :  40.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+  accounts             :  10.00 [WEAK]
+  english              :  27.50 [WEAK]
+  hindi                :  30.00 [WEAK]
+--------------------------------------------
+Weak Subjects: math (40.0), chem (50.0), phy (10.0), accounts (10.0), english (27.5), hindi (30.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 72.1/100 -> weighted 25.2 (avg=27.9, weight=35%)
+  Weak Subject Density: 100.0% (6/6 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 90.0/100 -> weighted 22.5 (lowest=10.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 78.7 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 78.7/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+     -> Multiple subject failures detected -- consider a reduced course load.
+  [CATEGORY ALERT] Weakness across entire Language & Literature category
+     -> This suggests foundational gaps in Language & Literature.
+     -> Consider enrolling in a bridging/remedial program for Language & Literature.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [accounts] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [english] Score: 27.5 | Category: Language & Literature
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [hindi] Score: 30.0 | Category: Language & Literature
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Stable but at risk -- current efforts are not sufficient.
+     -> Intensify study habits and seek additional support.
+--------------------------------------------
+Timestamp    : 2026-02-27 01:48:17
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 40.00
+Risk Level   : High Risk
+Risk Score   : 67.0 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  math                 :  40.00 [WEAK]
+--------------------------------------------
+Weak Subjects: math (40.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 60.0/100 -> weighted 21.0 (avg=40.0, weight=35%)
+  Weak Subject Density: 100.0% (1/1 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 60.0/100 -> weighted 15.0 (lowest=40.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 67.0 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 67.0/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Stable but at risk -- current efforts are not sufficient.
+     -> Intensify study habits and seek additional support.
+--------------------------------------------
+Timestamp    : 2026-02-27 14:35:45
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 45.00
+Risk Level   : High Risk
+Risk Score   : 60.8 / 100
+Trend        : Improving (^)
+--------------------------------------------
+Subjects:
+  chem                 :  50.00 [WEAK]
+  math                 :  40.00 [WEAK]
+--------------------------------------------
+Weak Subjects: chem (50.0), math (40.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 55.0/100 -> weighted 19.3 (avg=45.0, weight=35%)
+  Weak Subject Density: 100.0% (2/2 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 60.0/100 -> weighted 15.0 (lowest=40.0, weight=25%)
+  Trend Bonus: IMPROVING -> 10.0/100, weighted 1.5 (weight=15%)
+  TOTAL RISK SCORE: 60.8 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 60.8/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is IMPROVING.
+     -> Positive momentum detected! Continue current strategies.
+     -> Build on this progress by setting stretch goals.
+--------------------------------------------
+Timestamp    : 2026-02-27 14:35:55
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : zaid
+Student ID   : 2
+Average Score: 60.00
+Risk Level   : Low Risk
+Risk Score   : 30.0 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  math                 :  60.00
+--------------------------------------------
+Weak Subjects: None
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 40.0/100 -> weighted 14.0 (avg=60.0, weight=35%)
+  Weak Subject Density: 0.0% (0/1 weak) -> weighted 0.0 (weight=25%)
+  Lowest Score Severity: 40.0/100 -> weighted 10.0 (lowest=60.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 30.0 -> Low Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [INFO] Low Risk (Score: 30.0/100)
+     -> Student is performing well overall.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Maintain current study strategies.
+     -> Set goals to push for improvement in the next assessment.
+  [STRENGTH] All subjects are above the 60-point threshold.
+     -> Continue current study habits and aim for excellence.
+     -> Consider mentoring peers who may need support.
+--------------------------------------------
+Timestamp    : 2026-02-27 14:44:04
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : zaid
+Student ID   : 2
+Average Score: 50.00
+Risk Level   : Moderate Risk
+Risk Score   : 51.0 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  english              :  40.00 [WEAK]
+  math                 :  60.00
+--------------------------------------------
+Weak Subjects: english (40.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 50.0/100 -> weighted 17.5 (avg=50.0, weight=35%)
+  Weak Subject Density: 50.0% (1/2 weak) -> weighted 12.5 (weight=25%)
+  Lowest Score Severity: 60.0/100 -> weighted 15.0 (lowest=40.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 51.0 -> Moderate Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [WARNING] Moderate Risk Detected (Score: 51.0/100)
+     -> Proactive measures recommended to prevent further decline.
+     -> Create a structured weekly study plan.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [english] Score: 40.0 | Category: Language & Literature
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Stable but at risk -- current efforts are not sufficient.
+     -> Intensify study habits and seek additional support.
+--------------------------------------------
+Timestamp    : 2026-02-27 14:56:52
+============================================
+
+################################################################
+          BULK ACADEMIC REPORT EXPORT
+          Generated: 2026-02-27 14:58:35
+          Total Students: 2
+################################################################
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : unais
+Student ID   : 1
+Average Score: 32.27
+Risk Level   : High Risk
+Risk Score   : 77.2 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  accounts             :  10.00 [WEAK]
+  accounts             :  10.00 [WEAK]
+  accounts             :  10.00 [WEAK]
+  accounts             :  10.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  chem                 :  50.00 [WEAK]
+  english              :  27.50 [WEAK]
+  english              :  27.50 [WEAK]
+  english              :  27.50 [WEAK]
+  hindi                :  30.00 [WEAK]
+  hindi                :  30.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  math                 :  40.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+  phy                  :  10.00 [WEAK]
+--------------------------------------------
+Weak Subjects: accounts (10.0), accounts (10.0), accounts (10.0), accounts (10.0), chem (50.0), chem (50.0), chem (50.0), chem (50.0), chem (50.0), chem (50.0), chem (50.0), chem (50.0), english (27.5), english (27.5), english (27.5), hindi (30.0), hindi (30.0), math (40.0), math (40.0), math (40.0), math (40.0), math (40.0), math (40.0), math (40.0), math (40.0), math (40.0), math (40.0), phy (10.0), phy (10.0), phy (10.0), phy (10.0), phy (10.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 67.7/100 -> weighted 23.7 (avg=32.3, weight=35%)
+  Weak Subject Density: 100.0% (32/32 weak) -> weighted 25.0 (weight=25%)
+  Lowest Score Severity: 90.0/100 -> weighted 22.5 (lowest=10.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 77.2 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 77.2/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+     -> Multiple subject failures detected -- consider a reduced course load.
+  [CATEGORY ALERT] Weakness across entire STEM (Science, Technology, Engineering, Math) category
+     -> This suggests foundational gaps in STEM (Science, Technology, Engineering, Math).
+     -> Consider enrolling in a bridging/remedial program for STEM (Science, Technology, Engineering, Math).
+  [CATEGORY ALERT] Weakness across entire Language & Literature category
+     -> This suggests foundational gaps in Language & Literature.
+     -> Consider enrolling in a bridging/remedial program for Language & Literature.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [accounts] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [accounts] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [accounts] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [accounts] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [phy] Score: 10.0 | Category: Uncategorized
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [english] Score: 27.5 | Category: Language & Literature
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [english] Score: 27.5 | Category: Language & Literature
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [english] Score: 27.5 | Category: Language & Literature
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  [hindi] Score: 30.0 | Category: Language & Literature
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [hindi] Score: 30.0 | Category: Language & Literature
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [math] Score: 40.0 | Category: STEM (Science, Technology, Engineering, Math)
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  [chem] Score: 50.0 | Category: Uncategorized
+     -> Close to passing threshold. Targeted revision should help.
+     -> Focus on weak chapters and practice problem sets.
+     -> Use online resources and video tutorials for reinforcement.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Stable but at risk -- current efforts are not sufficient.
+     -> Intensify study habits and seek additional support.
+--------------------------------------------
+Timestamp    : 2026-02-27 14:58:35
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : zaid
+Student ID   : 2
+Average Score: 50.00
+Risk Level   : Moderate Risk
+Risk Score   : 51.0 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  english              :  40.00 [WEAK]
+  math                 :  60.00
+--------------------------------------------
+Weak Subjects: english (40.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 50.0/100 -> weighted 17.5 (avg=50.0, weight=35%)
+  Weak Subject Density: 50.0% (1/2 weak) -> weighted 12.5 (weight=25%)
+  Lowest Score Severity: 60.0/100 -> weighted 15.0 (lowest=40.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 51.0 -> Moderate Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [WARNING] Moderate Risk Detected (Score: 51.0/100)
+     -> Proactive measures recommended to prevent further decline.
+     -> Create a structured weekly study plan.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [english] Score: 40.0 | Category: Language & Literature
+     -> Significant weakness. Dedicate extra study hours each week.
+     -> Practice past exam papers to identify knowledge gaps.
+     -> Form a study group focused on this subject.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Stable but at risk -- current efforts are not sufficient.
+     -> Intensify study habits and seek additional support.
+--------------------------------------------
+Timestamp    : 2026-02-27 14:58:35
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : omar
+Student ID   : 3
+Average Score: 60.00
+Risk Level   : Low Risk
+Risk Score   : 30.0 / 100
+Trend        : Stable (=)
+--------------------------------------------
+Subjects:
+  math                 :  60.00
+--------------------------------------------
+Weak Subjects: None
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 40.0/100 -> weighted 14.0 (avg=60.0, weight=35%)
+  Weak Subject Density: 0.0% (0/1 weak) -> weighted 0.0 (weight=25%)
+  Lowest Score Severity: 40.0/100 -> weighted 10.0 (lowest=60.0, weight=25%)
+  Trend Neutral: STABLE -> 40.0/100, weighted 6.0 (weight=15%)
+  TOTAL RISK SCORE: 30.0 -> Low Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [INFO] Low Risk (Score: 30.0/100)
+     -> Student is performing well overall.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is STABLE.
+     -> Maintain current study strategies.
+     -> Set goals to push for improvement in the next assessment.
+  [STRENGTH] All subjects are above the 60-point threshold.
+     -> Continue current study habits and aim for excellence.
+     -> Consider mentoring peers who may need support.
+--------------------------------------------
+Timestamp    : 2026-02-27 15:06:15
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : omar
+Student ID   : 3
+Average Score: 40.00
+Risk Level   : High Risk
+Risk Score   : 65.5 / 100
+Trend        : Declining (v)
+--------------------------------------------
+Subjects:
+  english              :  20.00 [WEAK]
+  math                 :  60.00
+--------------------------------------------
+Weak Subjects: english (20.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 60.0/100 -> weighted 21.0 (avg=40.0, weight=35%)
+  Weak Subject Density: 50.0% (1/2 weak) -> weighted 12.5 (weight=25%)
+  Lowest Score Severity: 80.0/100 -> weighted 20.0 (lowest=20.0, weight=25%)
+  Trend Penalty: DECLINING -> 80.0/100, weighted 12.0 (weight=15%)
+  TOTAL RISK SCORE: 65.5 -> High Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [CRITICAL] High Risk Detected (Score: 65.5/100)
+     -> IMMEDIATE intervention recommended.
+     -> Schedule meeting with academic advisor within this week.
+     -> Prioritize the weakest subjects listed below.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [english] Score: 20.0 | Category: Language & Literature
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is DECLINING.
+     -> Identify recent changes (attendance, study habits, personal issues).
+     -> Consider meeting with a counselor or mentor.
+     -> URGENT: Declining trend combined with high risk demands immediate action.
+--------------------------------------------
+Timestamp    : 2026-02-27 15:06:43
+============================================
+
+============================================
+        ACADEMIC INTELLIGENCE REPORT
+============================================
+Student Name : omar
+Student ID   : 3
+Average Score: 60.00
+Risk Level   : Moderate Risk
+Risk Score   : 43.8 / 100
+Trend        : Improving (^)
+--------------------------------------------
+Subjects:
+  chem                 : 100.00
+  english              :  20.00 [WEAK]
+  math                 :  60.00
+--------------------------------------------
+Weak Subjects: english (20.0)
+--------------------------------------------
+Risk Score Breakdown:
+  Average Score Risk: 40.0/100 -> weighted 14.0 (avg=60.0, weight=35%)
+  Weak Subject Density: 33.3% (1/3 weak) -> weighted 8.3 (weight=25%)
+  Lowest Score Severity: 80.0/100 -> weighted 20.0 (lowest=20.0, weight=25%)
+  Trend Bonus: IMPROVING -> 10.0/100, weighted 1.5 (weight=15%)
+  TOTAL RISK SCORE: 43.8 -> Moderate Risk (thresholds: High>=60, Moderate>=35)
+--------------------------------------------
+Recommendations:
+  [WARNING] Moderate Risk Detected (Score: 43.8/100)
+     -> Proactive measures recommended to prevent further decline.
+     -> Create a structured weekly study plan.
+  
+  --- Subject-Specific Recommendations (ordered by severity) ---
+  [english] Score: 20.0 | Category: Language & Literature
+     -> CRITICAL: Score dangerously low. Requires intensive tutoring.
+     -> Review all foundational concepts from scratch.
+     -> Attend every available help session and office hour.
+  
+  --- Trend-Based Advice ---
+  [TREND] Performance is IMPROVING.
+     -> Positive momentum detected! Continue current strategies.
+     -> Build on this progress by setting stretch goals.
+--------------------------------------------
+Timestamp    : 2026-02-27 15:07:06
+============================================
+

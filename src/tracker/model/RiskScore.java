@@ -47,7 +47,7 @@ public class RiskScore {
 
     // --- Thresholds ---
     public static final double THRESHOLD_HIGH = 60.0;
-    public static final double THRESHOLD_MODERATE = 35.0;
+    public static final double THRESHOLD_MODERATE = 30.0;
 
     private final double numericScore;
     private final Level level;

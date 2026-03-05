@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tracker.ui.fx.controller.LoginController"
+            styleClass="root"
+            prefWidth="1024" prefHeight="700">
+
+    <center>
+        <VBox alignment="CENTER" spacing="0">
+            <!-- Login Card -->
+            <VBox styleClass="card" spacing="20" maxWidth="420" alignment="CENTER">
+                <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+
+                <!-- Header -->
+                <VBox alignment="CENTER" spacing="8">
+                    <Label text="ALIP" styleClass="form-title"/>
+                    <Label text="Adaptive Learning Intelligence Platform" styleClass="form-subtitle"/>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Form -->
+                <VBox spacing="14">
+                    <VBox spacing="6">
+                        <Label text="Username"/>
+                        <TextField fx:id="usernameField" promptText="Enter your username"/>
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label text="Password"/>
+                        <PasswordField fx:id="passwordField" promptText="Enter your password"/>
+                    </VBox>
+                </VBox>
+
+                <!-- Error message -->
+                <Label fx:id="errorLabel" styleClass="error-label" text="" wrapText="true"/>
+
+                <!-- Login button -->
+                <Button fx:id="loginButton" text="Sign In" styleClass="button-primary"
+                        maxWidth="Infinity" onAction="#handleLogin"/>
+
+                <!-- Register link -->
+                <HBox alignment="CENTER" spacing="4">
+                    <Label text="Don't have an account?" styleClass="secondary"/>
+                    <Button text="Register" styleClass="button-link" onAction="#handleGoToRegister"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

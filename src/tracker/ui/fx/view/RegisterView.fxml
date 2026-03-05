@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tracker.ui.fx.controller.RegisterController"
+            styleClass="root"
+            prefWidth="1024" prefHeight="700">
+
+    <center>
+        <VBox alignment="CENTER" spacing="0">
+            <!-- Register Card -->
+            <VBox styleClass="card" spacing="16" maxWidth="460" alignment="CENTER">
+                <padding><Insets top="36" right="40" bottom="36" left="40"/></padding>
+
+                <!-- Header -->
+                <VBox alignment="CENTER" spacing="8">
+                    <Label text="Create Account" styleClass="form-title"/>
+                    <Label text="Register a new ALIP account" styleClass="form-subtitle"/>
+                </VBox>
+
+                <Separator/>
+
+                <!-- Form -->
+                <VBox spacing="12">
+                    <VBox spacing="6">
+                        <Label text="Username"/>
+                        <TextField fx:id="usernameField" promptText="Choose a username"/>
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label text="Password"/>
+                        <PasswordField fx:id="passwordField" promptText="Choose a password (min 6 chars)"/>
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label text="Confirm Password"/>
+                        <PasswordField fx:id="confirmPasswordField" promptText="Re-enter password"/>
+                    </VBox>
+
+                    <VBox spacing="6">
+                        <Label text="Role"/>
+                        <ComboBox fx:id="roleComboBox" maxWidth="Infinity" promptText="Select role"/>
+                    </VBox>
+                </VBox>
+
+                <!-- Error / Success message -->
+                <Label fx:id="messageLabel" text="" wrapText="true"/>
+
+                <!-- Register button -->
+                <Button fx:id="registerButton" text="Create Account" styleClass="button-primary"
+                        maxWidth="Infinity" onAction="#handleRegister"/>
+
+                <!-- Back to login link -->
+                <HBox alignment="CENTER" spacing="4">
+                    <Label text="Already have an account?" styleClass="secondary"/>
+                    <Button text="Sign In" styleClass="button-link" onAction="#handleGoToLogin"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

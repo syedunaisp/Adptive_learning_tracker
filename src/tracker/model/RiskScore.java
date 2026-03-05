@@ -8,10 +8,10 @@ import java.util.List;
  * Encapsulates a weighted risk assessment result for a student.
  *
  * Components of the score (0-100 scale):
- *   1. Average score contribution   (weight 0.35)
- *   2. Weak subject count           (weight 0.25)
- *   3. Lowest score severity         (weight 0.25)
- *   4. Trend direction penalty/bonus (weight 0.15)
+ * 1. Average score contribution (weight 0.35)
+ * 2. Weak subject count (weight 0.25)
+ * 3. Lowest score severity (weight 0.25)
+ * 4. Trend direction penalty/bonus (weight 0.15)
  *
  * A higher numeric score means HIGHER risk.
  */
@@ -25,23 +25,29 @@ public class RiskScore {
 
         private final String label;
 
-        Level(String label) { this.label = label; }
+        Level(String label) {
+            this.label = label;
+        }
 
-        public String getLabel() { return label; }
+        public String getLabel() {
+            return label;
+        }
 
         @Override
-        public String toString() { return label; }
+        public String toString() {
+            return label;
+        }
     }
 
     // --- Weights (must sum to 1.0) ---
-    public static final double W_AVERAGE   = 0.35;
+    public static final double W_AVERAGE = 0.35;
     public static final double W_WEAK_COUNT = 0.25;
-    public static final double W_LOWEST     = 0.25;
-    public static final double W_TREND      = 0.15;
+    public static final double W_LOWEST = 0.25;
+    public static final double W_TREND = 0.15;
 
     // --- Thresholds ---
-    public static final double THRESHOLD_HIGH     = 60.0;
-    public static final double THRESHOLD_MODERATE  = 35.0;
+    public static final double THRESHOLD_HIGH = 60.0;
+    public static final double THRESHOLD_MODERATE = 35.0;
 
     private final double numericScore;
     private final Level level;
@@ -56,15 +62,15 @@ public class RiskScore {
     /**
      * Constructs a RiskScore by computing weighted components.
      *
-     * @param averageScore    the student's current average (0-100)
+     * @param averageScore     the student's current average (0-100)
      * @param weakSubjectCount number of subjects scoring below 60
-     * @param lowestScore     the student's lowest individual score
-     * @param totalSubjects   total number of subjects enrolled
-     * @param trend           the student's performance trend direction
+     * @param lowestScore      the student's lowest individual score
+     * @param totalSubjects    total number of subjects enrolled
+     * @param trend            the student's performance trend direction
      */
     public RiskScore(double averageScore, int weakSubjectCount,
-                     double lowestScore, int totalSubjects,
-                     TrendDirection trend) {
+            double lowestScore, int totalSubjects,
+            TrendDirection trend) {
 
         List<String> reasons = new ArrayList<>();
 
@@ -130,14 +136,61 @@ public class RiskScore {
         this.explanations = Collections.unmodifiableList(reasons);
     }
 
-    public double getNumericScore() { return numericScore; }
-    public Level getLevel() { return level; }
-    public List<String> getExplanations() { return explanations; }
+    public double getNumericScore() {
+        return numericScore;
+    }
 
-    public double getAverageComponent() { return averageComponent; }
-    public double getWeakCountComponent() { return weakCountComponent; }
-    public double getLowestComponent() { return lowestComponent; }
-    public double getTrendComponent() { return trendComponent; }
+    public Level getLevel() {
+        return level;
+    }
+
+    public List<String> getExplanations() {
+        return explanations;
+    }
+
+    public double getAverageComponent() {
+        return averageComponent;
+    }
+
+    public double getWeakCountComponent() {
+        return weakCountComponent;
+    }
+
+    public double getLowestComponent() {
+        return lowestComponent;
+    }
+
+    public double getTrendComponent() {
+        return trendComponent;
+    }
+
+    /**
+     * Returns the percentage contribution of the average score factor to total
+     * risk.
+     */
+    public double getAverageContributionPercent() {
+        return numericScore > 0 ? (averageComponent / numericScore) * 100.0 : 0;
+    }
+
+    /**
+     * Returns the percentage contribution of the weak subject count factor to total
+     * risk.
+     */
+    public double getWeakCountContributionPercent() {
+        return numericScore > 0 ? (weakCountComponent / numericScore) * 100.0 : 0;
+    }
+
+    /**
+     * Returns the percentage contribution of the lowest score factor to total risk.
+     */
+    public double getLowestContributionPercent() {
+        return numericScore > 0 ? (lowestComponent / numericScore) * 100.0 : 0;
+    }
+
+    /** Returns the percentage contribution of the trend factor to total risk. */
+    public double getTrendContributionPercent() {
+        return numericScore > 0 ? (trendComponent / numericScore) * 100.0 : 0;
+    }
 
     /**
      * Returns a concise single-line summary.

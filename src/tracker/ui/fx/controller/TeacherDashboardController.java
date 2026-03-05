@@ -20,11 +20,9 @@ import tracker.service.ai.TrendAnalyzer;
 import tracker.ui.fx.ViewManager;
 import tracker.ui.fx.ViewManagerAware;
 
-import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 
 import javafx.stage.FileChooser;
@@ -64,7 +62,9 @@ public class TeacherDashboardController implements ViewManagerAware {
     @FXML
     private TableColumn<Student, String> studentTrendCol;
     @FXML
-    private PieChart riskPieChart;
+    private BarChart<String, Number> scoreDistChart;
+    @FXML
+    private CategoryAxis scoreDistXAxis;
     @FXML
     private BarChart<String, Number> subjectBarChart;
     @FXML
@@ -185,36 +185,38 @@ public class TeacherDashboardController implements ViewManagerAware {
 
         studentsTable.setItems(FXCollections.observableArrayList(students));
 
-        // Populate PieChart
-        long highRiskCount = students.stream()
-                .filter(s -> riskPredictor.assessRisk(s).getLevel() == RiskScore.Level.HIGH).count();
-        long modRiskCount = students.stream()
-                .filter(s -> riskPredictor.assessRisk(s).getLevel() == RiskScore.Level.MODERATE).count();
-        long lowRiskCount = students.size() - highRiskCount - modRiskCount;
+        // Populate Score Distribution BarChart
+        int countFail = 0; // < 40
+        int countRisk = 0; // 40 - 59.9
+        int countAvg = 0; // 60 - 74.9
+        int countGood = 0; // 75 - 89.9
+        int countExcel = 0; // 90 - 100
 
-        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
-        if (highRiskCount > 0)
-            pieData.add(new PieChart.Data("High Risk", highRiskCount));
-        if (modRiskCount > 0)
-            pieData.add(new PieChart.Data("Moderate Risk", modRiskCount));
-        if (lowRiskCount > 0)
-            pieData.add(new PieChart.Data("Low Risk", lowRiskCount));
-
-        for (PieChart.Data data : pieData) {
-            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
-                if (newNode != null) {
-                    if ("High Risk".equals(data.getName()))
-                        newNode.setStyle("-fx-pie-color: #ff4757;");
-                    else if ("Moderate Risk".equals(data.getName()))
-                        newNode.setStyle("-fx-pie-color: #ffa502;");
-                    else if ("Low Risk".equals(data.getName()))
-                        newNode.setStyle("-fx-pie-color: #2ed573;");
-                }
-            });
+        for (Student s : students) {
+            double avg = s.getAverageScore();
+            if (avg < 40)
+                countFail++;
+            else if (avg < 60)
+                countRisk++;
+            else if (avg < 75)
+                countAvg++;
+            else if (avg < 90)
+                countGood++;
+            else
+                countExcel++;
         }
 
-        riskPieChart.setAnimated(false);
-        riskPieChart.setData(pieData);
+        XYChart.Series<String, Number> distSeries = new XYChart.Series<>();
+        distSeries.setName("Students");
+        distSeries.getData().add(new XYChart.Data<>("Fail (<40)", countFail));
+        distSeries.getData().add(new XYChart.Data<>("At Risk (40-59)", countRisk));
+        distSeries.getData().add(new XYChart.Data<>("Average (60-74)", countAvg));
+        distSeries.getData().add(new XYChart.Data<>("Good (75-89)", countGood));
+        distSeries.getData().add(new XYChart.Data<>("Excellent (90+)", countExcel));
+
+        scoreDistChart.setAnimated(false);
+        scoreDistChart.getData().clear();
+        scoreDistChart.getData().add(distSeries);
 
         // Populate BarChart
         Map<String, Double> subjectSum = new HashMap<>();

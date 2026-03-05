@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tracker.ui.fx.controller.TeacherDashboardController"
+            styleClass="root">
+
+    <!-- TOP: Header -->
+    <top>
+        <HBox styleClass="card" spacing="16" alignment="CENTER_LEFT"
+              style="-fx-background-radius: 0; -fx-border-radius: 0;">
+            <padding><Insets top="12" right="24" bottom="12" left="24"/></padding>
+            <Label text="ALIP" styleClass="form-title" style="-fx-font-size: 18px;"/>
+            <Label text="— Teacher Dashboard" styleClass="secondary"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" text="Welcome" styleClass="secondary"/>
+            <Button text="Logout" styleClass="button-danger" onAction="#handleLogout"
+                    style="-fx-padding: 6 16;"/>
+        </HBox>
+    </top>
+
+    <!-- LEFT: Sidebar -->
+    <left>
+        <VBox styleClass="card" spacing="4" prefWidth="200"
+              style="-fx-background-radius: 0; -fx-border-radius: 0;">
+            <padding><Insets top="16" right="8" bottom="16" left="8"/></padding>
+            <Label text="NAVIGATION" styleClass="secondary" style="-fx-padding: 0 8 8 8;"/>
+            <Button text="📊  Class Overview" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showOverview"/>
+            <Button text="🏫  Student Management" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showStudentManagement"/>
+            <Button text="📈  Analytics" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showAnalytics"/>
+            <Button text="🔬  Simulation" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showSimulation"/>
+            <Button text="🩺  Interventions" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showInterventions"/>
+            <Button text="📝  Re-evaluations" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showReevaluations"/>
+        </VBox>
+    </left>
+
+    <!-- CENTER: Content -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <StackPane fx:id="contentArea">
+                <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+
+                <VBox fx:id="overviewPane" spacing="20">
+                    <!-- Metric Cards -->
+                <HBox spacing="16">
+                    <VBox styleClass="card" spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Total Students" styleClass="secondary"/>
+                        <Label fx:id="totalStudentsLabel" text="—" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #6c63ff;"/>
+                    </VBox>
+                    <VBox styleClass="card" spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="At Risk" styleClass="secondary"/>
+                        <Label fx:id="atRiskLabel" text="—" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ff4757;"/>
+                    </VBox>
+                    <VBox styleClass="card" spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Class Average" styleClass="secondary"/>
+                        <Label fx:id="classAvgLabel" text="—" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2ed573;"/>
+                    </VBox>
+                    <VBox styleClass="card" spacing="4" HBox.hgrow="ALWAYS">
+                        <Label text="Weakest Subject" styleClass="secondary"/>
+                        <Label fx:id="weakestSubjectLabel" text="—" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ffa502;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Students Table -->
+                <VBox styleClass="card" spacing="12">
+                    <Label text="All Students" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <TableView fx:id="studentsTable" prefHeight="350">
+                        <columns>
+                            <TableColumn fx:id="studentIdCol" text="ID" prefWidth="80"/>
+                            <TableColumn fx:id="studentNameCol" text="Name" prefWidth="180"/>
+                            <TableColumn fx:id="studentAvgCol" text="Average" prefWidth="100"/>
+                            <TableColumn fx:id="studentRiskCol" text="Risk" prefWidth="120"/>
+                            <TableColumn fx:id="studentTrendCol" text="Trend" prefWidth="120"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- Analytics Charts -->
+                <HBox spacing="16">
+                    <VBox styleClass="card" spacing="8" HBox.hgrow="ALWAYS">
+                        <Label text="Score Distribution" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <BarChart fx:id="scoreDistChart" prefHeight="250" animated="false" legendVisible="false">
+                            <xAxis>
+                                <CategoryAxis fx:id="scoreDistXAxis" label="Grade Range"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Students"/>
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
+                    <VBox styleClass="card" spacing="8" HBox.hgrow="ALWAYS">
+                        <Label text="Subject Difficulty" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <BarChart fx:id="subjectBarChart" prefHeight="250" animated="false">
+                            <xAxis>
+                                <CategoryAxis fx:id="subjectXAxis" label="Subject"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Average Score"/>
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
+                </HBox>
+                </VBox>
+            </StackPane>
+        </ScrollPane>
+    </center>
+</BorderPane>

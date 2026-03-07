@@ -34,7 +34,7 @@ public class AdminDashboardController implements ViewManagerAware {
     private StackPane contentArea;
 
     private ViewManager viewManager;
-    private final DataManager dataManager = new DataManager();
+    private final DataManager dataManager = DataManager.getInstance();
     private final UserDAO userDAO = new UserDAO();
     private final tracker.data.dao.ClassDAO classDAO = new tracker.data.dao.ClassDAO();
     private final TrendAnalyzer trendAnalyzer = new TrendAnalyzer();

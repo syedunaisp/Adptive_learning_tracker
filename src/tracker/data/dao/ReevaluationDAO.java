@@ -71,6 +71,7 @@ public class ReevaluationDAO {
                 "resolution_notes = ?, resolved_at = datetime('now'), updated_marks = ? WHERE id = ?";
         Connection conn = null;
         PreparedStatement ps = null;
+        boolean updated = false;
         try {
             conn = DBConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
@@ -83,7 +84,39 @@ public class ReevaluationDAO {
                 ps.setNull(4, Types.REAL);
             }
             ps.setInt(5, requestId);
-            return ps.executeUpdate() > 0;
+            updated = ps.executeUpdate() > 0;
+            DBConnectionManager.closeQuietly(ps);
+
+            // If this was an approval, we must also update the actual student_scores table
+            if (updated && "RESOLVED".equals(status) && updatedMarks >= 0) {
+                // 1. Fetch the student ID and subject name
+                int studentDbId = -1;
+                String subjectName = null;
+                ps = conn.prepareStatement("SELECT student_id, subject_name FROM reevaluation_requests WHERE id = ?");
+                ps.setInt(1, requestId);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    studentDbId = rs.getInt("student_id");
+                    subjectName = rs.getString("subject_name");
+                }
+                rs.close();
+                DBConnectionManager.closeQuietly(ps);
+
+                // 2. Look up the subject ID and persist the updated score
+                if (studentDbId > 0 && subjectName != null) {
+                    tracker.data.DataManager dm = tracker.data.DataManager.getInstance();
+                    String cat = tracker.model.SubjectCategory.categorize(subjectName).name();
+                    int subjId = dm.getSubjectDAO().findOrCreate(subjectName, cat);
+
+                    // Attempt to update existing latest score
+                    boolean scoreUpdated = dm.getScoreDAO().updateScore(studentDbId, subjId, updatedMarks);
+                    if (!scoreUpdated) {
+                        // Fallback if no score exists for some reason
+                        dm.getScoreDAO().insertScore(studentDbId, subjId, updatedMarks);
+                    }
+                }
+            }
+            return updated;
         } catch (SQLException e) {
             System.err.println("ReevaluationDAO.updateRequestStatus error: " + e.getMessage());
             return false;

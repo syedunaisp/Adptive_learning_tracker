@@ -72,7 +72,7 @@ public class TeacherDashboardController implements ViewManagerAware {
     private VBox reevalPane;
 
     private ViewManager viewManager;
-    private final DataManager dataManager = new DataManager();
+    private final DataManager dataManager = DataManager.getInstance();
     private final TrendAnalyzer trendAnalyzer = new TrendAnalyzer();
     private final RiskPredictor riskPredictor = new RiskPredictor(trendAnalyzer);
     private final AdaptivePlanner planner = new AdaptivePlanner();

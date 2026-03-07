@@ -31,13 +31,24 @@ public class DataManager {
     /** In-memory cache, refreshed from DB. */
     private List<Student> cachedStudents;
 
-    public DataManager() {
+    // --- Singleton Implementation ---
+    private static DataManager instance;
+
+    private DataManager() {
         this.studentDAO = new StudentDAO();
         this.subjectDAO = new SubjectDAO();
         this.scoreDAO = new ScoreDAO();
         this.cachedStudents = new ArrayList<>();
         refreshCache();
     }
+
+    public static synchronized DataManager getInstance() {
+        if (instance == null) {
+            instance = new DataManager();
+        }
+        return instance;
+    }
+    // --------------------------------
 
     /**
      * Adds a student to the database if new.

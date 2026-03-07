@@ -136,7 +136,7 @@ public class MainFrame extends JFrame {
         this.currentRole = role;
         this.currentUsername = username;
 
-        this.dataManager = new DataManager();
+        this.dataManager = DataManager.getInstance();
         this.fileManager = new FileManager();
         this.recommendationEngine = new RecommendationEngine();
         this.trendAnalyzer = new TrendAnalyzer();

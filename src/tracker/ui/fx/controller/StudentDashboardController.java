@@ -56,7 +56,7 @@ public class StudentDashboardController implements ViewManagerAware {
     private VBox overviewPane;
 
     private ViewManager viewManager;
-    private final DataManager dataManager = new DataManager();
+    private final DataManager dataManager = DataManager.getInstance();
     private final TrendAnalyzer trendAnalyzer = new TrendAnalyzer();
     private final RiskPredictor riskPredictor = new RiskPredictor(trendAnalyzer);
     private final AnalyticsService analyticsService = new AnalyticsService(riskPredictor, trendAnalyzer);
@@ -117,6 +117,7 @@ public class StudentDashboardController implements ViewManagerAware {
             return;
         }
 
+        dataManager.refreshCache();
         List<Student> allStudents = dataManager.getStudents();
         for (Student s : allStudents) {
             if (linkedStudentId.equals(s.getId())) {

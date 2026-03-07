@@ -19,6 +19,7 @@ import tracker.service.ai.RiskPredictor;
 import tracker.service.ai.TrendAnalyzer;
 import tracker.ui.fx.ViewManager;
 import tracker.ui.fx.ViewManagerAware;
+import tracker.ui.fx.AlertDialog;
 
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -350,11 +351,13 @@ public class TeacherDashboardController implements ViewManagerAware {
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
+        // Routes to AlertDialog for consistent dark-themed display
+        if (type == Alert.AlertType.ERROR)
+            AlertDialog.showError(title, content);
+        else if (type == Alert.AlertType.WARNING)
+            AlertDialog.showWarning(title, content);
+        else
+            AlertDialog.showInfo(title, content);
     }
 
     @FXML
@@ -366,61 +369,62 @@ public class TeacherDashboardController implements ViewManagerAware {
 
         Dialog<Student> dialog = new Dialog<>();
         dialog.setTitle("Add Student & Scores");
-        dialog.setHeaderText("Enter student details and initial marks.");
+        applyDarkDialog(dialog);
 
         ButtonType saveType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveType, ButtonType.CANCEL);
 
-        VBox content = new VBox(15);
+        VBox content = new VBox(16);
         content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color: #16213e;");
+
+        // Title bar inside form
+        Label formTitle = new Label("👤 New Student");
+        formTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #6c63ff;");
 
         // Basic Info
         GridPane grid = new GridPane();
-        grid.setHgap(10);
+        grid.setHgap(12);
         grid.setVgap(10);
 
-        TextField nameInput = new TextField();
-        TextField rollInput = new TextField();
-        TextField emailInput = new TextField();
+        TextField nameInput = darkField("", "Full Name");
+        TextField rollInput = darkField("", "Roll Number");
+        TextField emailInput = darkField("", "Email Address");
 
-        grid.add(new Label("Name:"), 0, 0);
+        grid.add(darkLabel("Name:"), 0, 0);
         grid.add(nameInput, 1, 0);
-        grid.add(new Label("Roll Number:"), 0, 1);
+        grid.add(darkLabel("Roll No:"), 0, 1);
         grid.add(rollInput, 1, 1);
-        grid.add(new Label("Email:"), 0, 2);
+        grid.add(darkLabel("Email:"), 0, 2);
         grid.add(emailInput, 1, 2);
 
         // Subjects Section
-        VBox subjectsContainer = new VBox(10);
-        Label subLabel = new Label("Subjects & Scores");
-        subLabel.setStyle("-fx-font-weight: bold; -fx-padding: 10 0 0 0;");
+        Label subLabel = new Label("📚  Subjects & Scores");
+        subLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ffa502; -fx-padding: 6 0 0 0;");
 
-        VBox subjectsList = new VBox(5);
+        VBox subjectsList = new VBox(6);
+        subjectsList.setStyle("-fx-background-color: transparent;");
 
         Button addSubjectBtn = new Button("+ Add Subject");
+        addSubjectBtn.setStyle(
+                "-fx-background-color: rgba(108,99,255,0.15);" +
+                        "-fx-text-fill: #6c63ff; -fx-font-weight: bold; -fx-background-radius: 6;" +
+                        "-fx-border-color: #6c63ff; -fx-border-radius: 6; -fx-cursor: hand; -fx-padding: 6 14;");
         addSubjectBtn.setOnAction(e -> {
-            HBox row = new HBox(10);
-            TextField subName = new TextField();
-            subName.setPromptText("Subject");
-            TextField subScore = new TextField();
-            subScore.setPromptText("Score (0-100)");
-            subScore.setPrefWidth(80);
-            Button removeBtn = new Button("X");
-            removeBtn.setStyle("-fx-text-fill: red;");
-            row.getChildren().addAll(subName, subScore, removeBtn);
-
-            removeBtn.setOnAction(ev -> subjectsList.getChildren().remove(row));
+            HBox row = darkSubjectRow(subjectsList);
             subjectsList.getChildren().add(row);
             dialog.getDialogPane().getScene().getWindow().sizeToScene();
         });
 
         // Add one empty row by default
-        addSubjectBtn.fire();
+        subjectsList.getChildren().add(darkSubjectRow(subjectsList));
 
-        subjectsContainer.getChildren().addAll(subLabel, subjectsList, addSubjectBtn);
-        content.getChildren().addAll(grid, new Separator(), subjectsContainer);
+        Separator sep = new Separator();
+        sep.setStyle("-fx-background-color: #2a2a4a;");
 
+        content.getChildren().addAll(formTitle, grid, sep, subLabel, subjectsList, addSubjectBtn);
         dialog.getDialogPane().setContent(content);
+        styleDarkDialogButtons(dialog.getDialogPane(), saveType.getText());
 
         dialog.setResultConverter(b -> {
             if (b == saveType) {
@@ -453,7 +457,7 @@ public class TeacherDashboardController implements ViewManagerAware {
                     // Save to Database
                     newStudent.setClassId(targetClass.getId());
                     dataManager.getStudentDAO().insert(newStudent);
-                    dataManager.refreshCache(); // Important to refresh
+                    dataManager.refreshCache();
 
                     // Add scores
                     int studentDbId = dataManager.getStudentDAO().findDbIdByStudentId(newStudent.getId());
@@ -462,7 +466,7 @@ public class TeacherDashboardController implements ViewManagerAware {
                         int subjId = dataManager.getSubjectDAO().findOrCreate(subject.getSubjectName(), cat);
                         dataManager.getScoreDAO().insertScore(studentDbId, subjId, subject.getScore());
                     }
-                    dataManager.refreshCache(); // Refresh again for subjects
+                    dataManager.refreshCache();
 
                     return newStudent;
                 } catch (NumberFormatException e) {
@@ -476,7 +480,6 @@ public class TeacherDashboardController implements ViewManagerAware {
         Optional<Student> result = dialog.showAndWait();
         result.ifPresent(s -> {
             trendAnalyzer.recordAverage(s.getId(), s.getAverageScore());
-            // Trigger table refresh
             classSelect.getSelectionModel().clearSelection();
             classSelect.getSelectionModel().select(targetClass);
         });
@@ -485,48 +488,47 @@ public class TeacherDashboardController implements ViewManagerAware {
     private void handleAdvancedEditStudent(Student student, ComboBox<ClassRoom> classSelect) {
         Dialog<Student> dialog = new Dialog<>();
         dialog.setTitle("Edit Student & Scores");
-        dialog.setHeaderText("Edit details for: " + student.getName());
+        applyDarkDialog(dialog);
 
         ButtonType saveType = new ButtonType("Save Changes", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveType, ButtonType.CANCEL);
 
-        VBox content = new VBox(15);
+        VBox content = new VBox(16);
         content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color: #16213e;");
 
-        // Basic Info
+        Label formTitle = new Label("✏️ Edit: " + student.getName());
+        formTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #6c63ff;");
+
         GridPane grid = new GridPane();
-        grid.setHgap(10);
+        grid.setHgap(12);
         grid.setVgap(10);
 
-        TextField nameInput = new TextField(student.getName());
-        TextField rollInput = new TextField(student.getRollNumber() != null ? student.getRollNumber() : "");
-        TextField emailInput = new TextField(student.getEmail() != null ? student.getEmail() : "");
+        TextField nameInput = darkField(student.getName(), "Full Name");
+        TextField rollInput = darkField(student.getRollNumber() != null ? student.getRollNumber() : "", "Roll Number");
+        TextField emailInput = darkField(student.getEmail() != null ? student.getEmail() : "", "Email Address");
 
-        grid.add(new Label("Name:"), 0, 0);
+        grid.add(darkLabel("Name:"), 0, 0);
         grid.add(nameInput, 1, 0);
-        grid.add(new Label("Roll Number:"), 0, 1);
+        grid.add(darkLabel("Roll No:"), 0, 1);
         grid.add(rollInput, 1, 1);
-        grid.add(new Label("Email:"), 0, 2);
+        grid.add(darkLabel("Email:"), 0, 2);
         grid.add(emailInput, 1, 2);
 
-        // Subjects Section
-        VBox subjectsContainer = new VBox(10);
-        Label subLabel = new Label("Subjects & Scores");
-        subLabel.setStyle("-fx-font-weight: bold; -fx-padding: 10 0 0 0;");
+        Label subLabel = new Label("📚  Subjects & Scores");
+        subLabel.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ffa502; -fx-padding: 6 0 0 0;");
 
-        VBox subjectsList = new VBox(5);
+        VBox subjectsList = new VBox(6);
+        subjectsList.setStyle("-fx-background-color: transparent;");
 
         java.util.function.Consumer<Subject> addRow = (subj) -> {
-            HBox row = new HBox(10);
-            TextField subName = new TextField(subj != null ? subj.getSubjectName() : "");
-            subName.setPromptText("Subject");
-            TextField subScore = new TextField(subj != null ? String.valueOf(subj.getScore()) : "");
-            subScore.setPromptText("Score (0-100)");
-            subScore.setPrefWidth(80);
-            Button removeBtn = new Button("X");
-            removeBtn.setStyle("-fx-text-fill: red;");
-            row.getChildren().addAll(subName, subScore, removeBtn);
-
+            HBox row = darkSubjectRow(null);
+            if (subj != null) {
+                ((TextField) row.getChildren().get(0)).setText(subj.getSubjectName());
+                ((TextField) row.getChildren().get(1)).setText(String.valueOf(subj.getScore()));
+            }
+            // wire the remove button
+            Button removeBtn = (Button) row.getChildren().get(2);
             removeBtn.setOnAction(ev -> {
                 subjectsList.getChildren().remove(row);
                 dialog.getDialogPane().getScene().getWindow().sizeToScene();
@@ -534,21 +536,26 @@ public class TeacherDashboardController implements ViewManagerAware {
             subjectsList.getChildren().add(row);
         };
 
-        // Populate existing subjects
         for (Subject sub : student.getSubjects()) {
             addRow.accept(sub);
         }
 
         Button addSubjectBtn = new Button("+ Add Subject");
+        addSubjectBtn.setStyle(
+                "-fx-background-color: rgba(108,99,255,0.15);" +
+                        "-fx-text-fill: #6c63ff; -fx-font-weight: bold; -fx-background-radius: 6;" +
+                        "-fx-border-color: #6c63ff; -fx-border-radius: 6; -fx-cursor: hand; -fx-padding: 6 14;");
         addSubjectBtn.setOnAction(e -> {
             addRow.accept(null);
             dialog.getDialogPane().getScene().getWindow().sizeToScene();
         });
 
-        subjectsContainer.getChildren().addAll(subLabel, subjectsList, addSubjectBtn);
-        content.getChildren().addAll(grid, new Separator(), subjectsContainer);
+        Separator sep = new Separator();
+        sep.setStyle("-fx-background-color: #2a2a4a;");
 
+        content.getChildren().addAll(formTitle, grid, sep, subLabel, subjectsList, addSubjectBtn);
         dialog.getDialogPane().setContent(content);
+        styleDarkDialogButtons(dialog.getDialogPane(), saveType.getText());
 
         dialog.setResultConverter(b -> {
             if (b == saveType) {
@@ -561,7 +568,6 @@ public class TeacherDashboardController implements ViewManagerAware {
                     student.setRollNumber(rollInput.getText().trim());
                     student.setEmail(emailInput.getText().trim());
 
-                    // Rebuild subjects list
                     student.getSubjects().clear();
                     for (javafx.scene.Node node : subjectsList.getChildren()) {
                         HBox row = (HBox) node;
@@ -576,14 +582,10 @@ public class TeacherDashboardController implements ViewManagerAware {
                             student.addSubject(new Subject(subj, score));
                         }
                     }
-                    // Rebuild subjects in DB
                     int studentDbId = dataManager.getStudentDAO().findDbIdByStudentId(student.getId());
                     if (studentDbId > 0) {
-                        dataManager.updateStudent(student); // Updates basic info
-
-                        // Clear existing scores
+                        dataManager.updateStudent(student);
                         dataManager.getScoreDAO().deleteByStudentDbId(studentDbId);
-
                         for (Subject subject : student.getSubjects()) {
                             String cat = tracker.model.SubjectCategory.categorize(subject.getSubjectName()).name();
                             int subjId = dataManager.getSubjectDAO().findOrCreate(subject.getSubjectName(), cat);
@@ -603,7 +605,6 @@ public class TeacherDashboardController implements ViewManagerAware {
         Optional<Student> result = dialog.showAndWait();
         result.ifPresent(s -> {
             trendAnalyzer.recordAverage(s.getId(), s.getAverageScore());
-            // Trigger table refresh
             ClassRoom targetClass = classSelect.getValue();
             if (targetClass != null) {
                 classSelect.getSelectionModel().clearSelection();
@@ -615,13 +616,10 @@ public class TeacherDashboardController implements ViewManagerAware {
     private void handleAdvancedDeleteStudent(Student student, TableView<Student> table) {
         if (student == null)
             return;
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Delete Student");
-        confirm.setHeaderText("Are you sure you want to delete " + student.getName() + "?");
-        confirm.setContentText("This action cannot be undone.");
-
-        Optional<ButtonType> res = confirm.showAndWait();
-        if (res.isPresent() && res.get() == ButtonType.OK) {
+        boolean confirmed = AlertDialog.showConfirm(
+                "Delete Student",
+                "Permanently delete '" + student.getName() + "'? This action cannot be undone.");
+        if (confirmed) {
             dataManager.deleteStudent(student.getId());
             table.getItems().remove(student);
         }
@@ -1003,27 +1001,33 @@ public class TeacherDashboardController implements ViewManagerAware {
     private void handleAddClass(ComboBox<ClassRoom> classSelect) {
         Dialog<ClassRoom> dialog = new Dialog<>();
         dialog.setTitle("Add New Class");
-        dialog.setHeaderText("Enter class details.");
+        applyDarkDialog(dialog);
 
         ButtonType addType = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(addType, ButtonType.CANCEL);
 
+        VBox content = new VBox(14);
+        content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color: #16213e;");
+
+        Label formTitle = new Label("📚 Add New Class");
+        formTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #6c63ff;");
+
         GridPane grid = new GridPane();
-        grid.setHgap(10);
+        grid.setHgap(12);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
 
-        TextField nameInput = new TextField();
-        nameInput.setPromptText("Class Name (e.g. 10th Grade)");
-        TextField sectionInput = new TextField();
-        sectionInput.setPromptText("Section (e.g. A)");
+        TextField nameInput = darkField("", "Class Name (e.g. 10th Grade)");
+        TextField sectionInput = darkField("", "Section (e.g. A)");
 
-        grid.add(new Label("Class Name:"), 0, 0);
+        grid.add(darkLabel("Class Name:"), 0, 0);
         grid.add(nameInput, 1, 0);
-        grid.add(new Label("Section:"), 0, 1);
+        grid.add(darkLabel("Section:"), 0, 1);
         grid.add(sectionInput, 1, 1);
 
-        dialog.getDialogPane().setContent(grid);
+        content.getChildren().addAll(formTitle, grid);
+        dialog.getDialogPane().setContent(content);
+        styleDarkDialogButtons(dialog.getDialogPane(), "Add");
 
         dialog.setResultConverter(b -> {
             if (b == addType) {
@@ -1045,12 +1049,11 @@ public class TeacherDashboardController implements ViewManagerAware {
         if (cr == null)
             return;
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Class");
-        alert.setHeaderText("Are you sure you want to delete " + cr.getDisplayName() + "?");
-        alert.setContentText("This will untrack students associated with the class.");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
+        boolean confirmed = AlertDialog.showConfirm(
+                "Delete Class",
+                "Are you sure you want to delete '" + cr.getDisplayName()
+                        + "'? Students in this class will be untracked.");
+        if (confirmed) {
             studentMgmtService.deleteClass(cr.getId());
             classSelect.getItems().remove(cr);
         }
@@ -1068,11 +1071,8 @@ public class TeacherDashboardController implements ViewManagerAware {
         File file = fileChooser.showOpenDialog(classSelect.getScene().getWindow());
         if (file != null) {
             int count = studentMgmtService.importStudentsFromExcel(file, cr.getId());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Import Successful");
-            alert.setHeaderText(null);
-            alert.setContentText("Successfully imported " + count + " students into " + cr.getDisplayName());
-            alert.showAndWait();
+            AlertDialog.showInfo("Import Successful",
+                    "Successfully imported " + count + " students into " + cr.getDisplayName());
 
             // Refresh table
             int index = classSelect.getSelectionModel().getSelectedIndex();
@@ -1088,26 +1088,30 @@ public class TeacherDashboardController implements ViewManagerAware {
 
         List<Student> classStudents = studentMgmtService.getStudentsForClass(cr.getId());
         if (classStudents.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "No students in this class to record scores for.");
-            alert.showAndWait();
+            AlertDialog.showWarning("No Students", "No students in this class to record scores for.");
             return;
         }
 
         Dialog<Boolean> dialog = new Dialog<>();
         dialog.setTitle("Record Exam Score");
-        dialog.setHeaderText("Record a score for a student in " + cr.getDisplayName());
+        applyDarkDialog(dialog);
 
         ButtonType addType = new ButtonType("Record", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(addType, ButtonType.CANCEL);
 
+        VBox content = new VBox(14);
+        content.setPadding(new Insets(20));
+        content.setStyle("-fx-background-color: #16213e;");
+
+        Label formTitle = new Label("📝 Record Score — " + cr.getDisplayName());
+        formTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #6c63ff;");
+
         GridPane grid = new GridPane();
-        grid.setHgap(10);
+        grid.setHgap(12);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
 
         ComboBox<Student> studentCombo = new ComboBox<>();
         studentCombo.setItems(FXCollections.observableArrayList(classStudents));
-        // Use StringConverter to display student names cleanly
         studentCombo.setConverter(new javafx.util.StringConverter<Student>() {
             @Override
             public String toString(Student s) {
@@ -1120,19 +1124,24 @@ public class TeacherDashboardController implements ViewManagerAware {
             }
         });
         studentCombo.setPromptText("Select Student");
+        studentCombo.setMaxWidth(Double.MAX_VALUE);
+        studentCombo.setStyle(
+                "-fx-background-color: #16213e; -fx-border-color: #2a2a4a;" +
+                        "-fx-border-radius: 8; -fx-background-radius: 8;");
 
-        TextField subjectInput = new TextField();
-        subjectInput.setPromptText("Subject (e.g., Mathematics)");
+        TextField subjectInput = darkField("", "Subject (e.g., Mathematics)");
+        TextField scoreInput = darkField("", "Score (0-100)");
 
-        TextField scoreInput = new TextField();
-        scoreInput.setPromptText("Score (0-100)");
-
-        grid.add(new Label("Student:"), 0, 0);
+        grid.add(darkLabel("Student:"), 0, 0);
         grid.add(studentCombo, 1, 0);
-        grid.add(new Label("Subject:"), 0, 1);
+        grid.add(darkLabel("Subject:"), 0, 1);
         grid.add(subjectInput, 1, 1);
-        grid.add(new Label("Score:"), 0, 2);
+        grid.add(darkLabel("Score:"), 0, 2);
         grid.add(scoreInput, 1, 2);
+
+        content.getChildren().addAll(formTitle, grid);
+        dialog.getDialogPane().setContent(content);
+        styleDarkDialogButtons(dialog.getDialogPane(), "Record");
 
         // Validation logic
         javafx.scene.Node recordButton = dialog.getDialogPane().lookupButton(addType);
@@ -1711,6 +1720,89 @@ public class TeacherDashboardController implements ViewManagerAware {
 
         panel.getChildren().addAll(title, contentBox);
         return panel;
+    }
+
+    // =========================================================================
+    // DARK THEME DIALOG HELPERS
+    // =========================================================================
+
+    private void applyDarkDialog(Dialog<?> dialog) {
+        dialog.getDialogPane().setStyle(
+                "-fx-background-color: #0f0f1a;" +
+                        "-fx-border-color: #2a2a4a;" +
+                        "-fx-border-width: 1;" +
+                        "-fx-border-radius: 12;" +
+                        "-fx-background-radius: 12;");
+        if (dialog.getDialogPane().getHeader() != null) {
+            dialog.getDialogPane().getHeader().setStyle("-fx-background-color: #1a1a2e;");
+        }
+    }
+
+    private TextField darkField(String defaultValue, String prompt) {
+        TextField field = new TextField(defaultValue);
+        field.setPromptText(prompt);
+        field.setStyle(
+                "-fx-background-color: #16213e;" +
+                        "-fx-text-fill: #e0e0e8;" +
+                        "-fx-prompt-text-fill: #8888aa;" +
+                        "-fx-border-color: #2a2a4a;" +
+                        "-fx-border-radius: 8;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 8 12;");
+        return field;
+    }
+
+    private Label darkLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: #e0e0e8; -fx-font-weight: bold;");
+        return label;
+    }
+
+    private HBox darkSubjectRow(VBox container) {
+        HBox row = new HBox(10);
+        TextField subName = darkField("", "Subject");
+        TextField subScore = darkField("", "Score (0-100)");
+        subScore.setPrefWidth(80);
+
+        Button removeBtn = new Button("X");
+        removeBtn.setStyle(
+                "-fx-text-fill: #ff4757; -fx-background-color: transparent; -fx-cursor: hand; -fx-font-weight: bold;");
+
+        row.getChildren().addAll(subName, subScore, removeBtn);
+        if (container != null) {
+            removeBtn.setOnAction(ev -> {
+                container.getChildren().remove(row);
+                if (row.getScene() != null && row.getScene().getWindow() instanceof javafx.stage.Stage) {
+                    ((javafx.stage.Stage) row.getScene().getWindow()).sizeToScene();
+                }
+            });
+        }
+        return row;
+    }
+
+    private void styleDarkDialogButtons(javafx.scene.control.DialogPane pane, String defaultBtnText) {
+        pane.lookupAll(".button").forEach(n -> {
+            if (n instanceof Button btn) {
+                if (btn.getText().equalsIgnoreCase(defaultBtnText) || btn.getText().equalsIgnoreCase("OK")
+                        || btn.getText().equalsIgnoreCase("Save") || btn.getText().equalsIgnoreCase("Save Changes")) {
+                    btn.setStyle(
+                            "-fx-background-color: #6c63ff;" +
+                                    "-fx-text-fill: white;" +
+                                    "-fx-background-radius: 6;" +
+                                    "-fx-font-weight: bold;" +
+                                    "-fx-padding: 8 20;" +
+                                    "-fx-cursor: hand;");
+                } else {
+                    btn.setStyle(
+                            "-fx-background-color: transparent;" +
+                                    "-fx-text-fill: #8888aa;" +
+                                    "-fx-border-color: #2a2a4a;" +
+                                    "-fx-border-radius: 6;" +
+                                    "-fx-padding: 8 20;" +
+                                    "-fx-cursor: hand;");
+                }
+            }
+        });
     }
 
     @FXML

@@ -16,6 +16,7 @@ import tracker.service.ai.RiskPredictor;
 import tracker.service.ai.TrendAnalyzer;
 import tracker.ui.fx.ViewManager;
 import tracker.ui.fx.ViewManagerAware;
+import tracker.ui.fx.AlertDialog;
 import tracker.ui.fx.util.TableColumnFormatter;
 
 import java.util.List;
@@ -327,7 +328,7 @@ public class AdminDashboardController implements ViewManagerAware {
                 boolean newState = !selected.isEnabled();
                 userDAO.setEnabled(selected.getId(), newState);
                 usersTable.setItems(FXCollections.observableArrayList(userDAO.findAll()));
-                showAlert(Alert.AlertType.INFORMATION, "Access Updated",
+                AlertDialog.showInfo("Access Updated",
                         selected.getUsername() + " is now " + (newState ? "Active" : "Disabled"));
             }
         });
@@ -669,22 +670,35 @@ public class AdminDashboardController implements ViewManagerAware {
     private void handleCreateUser() {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Create User");
-        dialog.setHeaderText("Create a new user account");
+        applyDarkDialog(dialog);
         dialog.getDialogPane().setPrefWidth(450);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-        VBox box = new VBox(12);
-        box.setPadding(new Insets(16));
+        VBox box = new VBox(14);
+        box.setPadding(new Insets(20));
+        box.setStyle("-fx-background-color: #16213e;");
 
-        TextField usernameField = new TextField();
-        usernameField.setPromptText("Username");
+        Label formTitle = new Label("👤 Create New User");
+        formTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #6c63ff;");
+
+        TextField usernameField = darkField("", "Username");
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Password");
+        passwordField.setStyle(
+                "-fx-background-color: #16213e;" +
+                        "-fx-text-fill: #e0e0e8;" +
+                        "-fx-prompt-text-fill: #8888aa;" +
+                        "-fx-border-color: #2a2a4a;" +
+                        "-fx-border-radius: 8;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 8 12;");
+
         ComboBox<String> roleBox = new ComboBox<>(FXCollections.observableArrayList("STUDENT", "TEACHER", "ADMIN"));
         roleBox.getSelectionModel().selectFirst();
         roleBox.setMaxWidth(Double.MAX_VALUE);
+        roleBox.setStyle(
+                "-fx-background-color: #16213e; -fx-text-fill: white; -fx-border-color: #2a2a4a; -fx-border-radius: 8; -fx-background-radius: 8;");
 
-        // Student linking dropdown
         List<Student> allStudents = dataManager.getStudents();
         ComboBox<String> studentPicker = new ComboBox<>();
         studentPicker.setMaxWidth(Double.MAX_VALUE);
@@ -695,22 +709,28 @@ public class AdminDashboardController implements ViewManagerAware {
             studentPicker.getItems().add(s.getName() + " (" + s.getId() + ") [DB#" + dbId + "]");
         }
         studentPicker.getSelectionModel().selectFirst();
+        studentPicker.setStyle(
+                "-fx-background-color: #16213e; -fx-text-fill: white; -fx-border-color: #2a2a4a; -fx-border-radius: 8; -fx-background-radius: 8;");
 
         Label linkNote = new Label("Link this account to an existing student record.");
-        linkNote.setStyle("-fx-text-fill: #a4b0be; -fx-font-size: 11px;");
+        linkNote.setStyle("-fx-text-fill: #8888aa; -fx-font-size: 12px;");
 
         Label statusLabel = new Label();
 
         box.getChildren().addAll(
-                new Label("Username:"), usernameField,
-                new Label("Password:"), passwordField,
-                new Label("Role:"), roleBox,
+                formTitle,
+                darkLabel("Username:"), usernameField,
+                darkLabel("Password:"), passwordField,
+                darkLabel("Role:"), roleBox,
                 new Separator(),
-                new Label("Link to Student (optional):"), studentPicker, linkNote,
+                darkLabel("Link to Student (optional):"), studentPicker, linkNote,
                 statusLabel);
-        dialog.getDialogPane().setContent(box);
 
-        // Use event filter on OK button to validate before closing
+        dialog.getDialogPane().setContent(box);
+        styleDarkDialogButtons(dialog.getDialogPane(), "OK");
+
+        statusLabel.setStyle("-fx-text-fill: #ff4757; -fx-font-size: 12px;");
+
         final javafx.scene.control.Button okButton = (javafx.scene.control.Button) dialog.getDialogPane()
                 .lookupButton(ButtonType.OK);
         okButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
@@ -720,19 +740,16 @@ public class AdminDashboardController implements ViewManagerAware {
 
             if (username.length() < 3) {
                 statusLabel.setText("Username must be at least 3 characters.");
-                statusLabel.setStyle("-fx-text-fill: #ff4757;");
-                event.consume(); // Prevent dialog from closing
+                event.consume();
                 return;
             }
             if (password.length() < 6) {
                 statusLabel.setText("Password must be at least 6 characters.");
-                statusLabel.setStyle("-fx-text-fill: #ff4757;");
                 event.consume();
                 return;
             }
             if (userDAO.findByUsername(username) != null) {
                 statusLabel.setText("Username already exists.");
-                statusLabel.setStyle("-fx-text-fill: #ff4757;");
                 event.consume();
                 return;
             }
@@ -743,11 +760,9 @@ public class AdminDashboardController implements ViewManagerAware {
             boolean success = userDAO.createUser(username, password, role, linkedStudentDbId);
             if (!success) {
                 statusLabel.setText("Failed to create user. Check console for errors.");
-                statusLabel.setStyle("-fx-text-fill: #ff4757;");
                 event.consume();
                 return;
             }
-            // Success — dialog will close normally
         });
 
         dialog.showAndWait();
@@ -756,17 +771,23 @@ public class AdminDashboardController implements ViewManagerAware {
     private void handleLinkStudent(User user) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Link Student");
-        dialog.setHeaderText("Link a student record to: " + user.getUsername());
+        applyDarkDialog(dialog);
         dialog.getDialogPane().setPrefWidth(450);
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-        VBox box = new VBox(12);
-        box.setPadding(new Insets(16));
+        VBox box = new VBox(14);
+        box.setPadding(new Insets(20));
+        box.setStyle("-fx-background-color: #16213e;");
+
+        Label formTitle = new Label("🔗 Link: " + user.getUsername());
+        formTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #6c63ff;");
 
         List<Student> allStudents = dataManager.getStudents();
         ComboBox<String> studentPicker = new ComboBox<>();
         studentPicker.setMaxWidth(Double.MAX_VALUE);
         studentPicker.getItems().add("— None (unlink) —");
+        studentPicker.setStyle(
+                "-fx-background-color: #16213e; -fx-text-fill: white; -fx-border-color: #2a2a4a; -fx-border-radius: 8; -fx-background-radius: 8;");
 
         int selectedIndex = 0;
         int idx = 1;
@@ -782,20 +803,21 @@ public class AdminDashboardController implements ViewManagerAware {
         studentPicker.getSelectionModel().select(selectedIndex);
 
         Label info = new Label("Select a student to link, or choose 'None' to unlink.");
-        info.setStyle("-fx-text-fill: #a4b0be; -fx-font-size: 11px;");
+        info.setStyle("-fx-text-fill: #8888aa; -fx-font-size: 12px;");
 
-        box.getChildren().addAll(new Label("Select Student:"), studentPicker, info);
+        box.getChildren().addAll(formTitle, darkLabel("Select Student:"), studentPicker, info);
         dialog.getDialogPane().setContent(box);
+        styleDarkDialogButtons(dialog.getDialogPane(), "OK");
 
         dialog.setResultConverter(btn -> {
             if (btn == ButtonType.OK) {
                 Integer dbId = extractDbIdFromSelection(studentPicker.getValue());
                 userDAO.linkStudent(user.getId(), dbId);
                 if (dbId == null) {
-                    showAlert(Alert.AlertType.INFORMATION, "Unlinked",
+                    AlertDialog.showInfo("Unlinked",
                             "Student link removed for " + user.getUsername());
                 } else {
-                    showAlert(Alert.AlertType.INFORMATION, "Linked",
+                    AlertDialog.showInfo("Linked",
                             user.getUsername() + " linked to student DB#" + dbId);
                 }
             }
@@ -823,10 +845,75 @@ public class AdminDashboardController implements ViewManagerAware {
         }
     }
 
+    // =========================================================================
+    // DARK THEME DIALOG HELPERS
+    // =========================================================================
+
+    private void applyDarkDialog(Dialog<?> dialog) {
+        dialog.getDialogPane().setStyle(
+                "-fx-background-color: #0f0f1a;" +
+                        "-fx-border-color: #2a2a4a;" +
+                        "-fx-border-width: 1;" +
+                        "-fx-border-radius: 12;" +
+                        "-fx-background-radius: 12;");
+        if (dialog.getDialogPane().getHeader() != null) {
+            dialog.getDialogPane().getHeader().setStyle("-fx-background-color: #1a1a2e;");
+        }
+    }
+
+    private TextField darkField(String defaultValue, String prompt) {
+        TextField field = new TextField(defaultValue);
+        field.setPromptText(prompt);
+        field.setStyle(
+                "-fx-background-color: #16213e;" +
+                        "-fx-text-fill: #e0e0e8;" +
+                        "-fx-prompt-text-fill: #8888aa;" +
+                        "-fx-border-color: #2a2a4a;" +
+                        "-fx-border-radius: 8;" +
+                        "-fx-background-radius: 8;" +
+                        "-fx-padding: 8 12;");
+        return field;
+    }
+
+    private Label darkLabel(String text) {
+        Label label = new Label(text);
+        label.setStyle("-fx-text-fill: #e0e0e8; -fx-font-weight: bold;");
+        return label;
+    }
+
+    private void styleDarkDialogButtons(javafx.scene.control.DialogPane pane, String defaultBtnText) {
+        pane.lookupAll(".button").forEach(n -> {
+            if (n instanceof Button btn) {
+                if (btn.getText().equalsIgnoreCase(defaultBtnText) || btn.getText().equalsIgnoreCase("OK")) {
+                    btn.setStyle(
+                            "-fx-background-color: #6c63ff;" +
+                                    "-fx-text-fill: white;" +
+                                    "-fx-background-radius: 6;" +
+                                    "-fx-font-weight: bold;" +
+                                    "-fx-padding: 8 20;" +
+                                    "-fx-cursor: hand;");
+                } else {
+                    btn.setStyle(
+                            "-fx-background-color: transparent;" +
+                                    "-fx-text-fill: #8888aa;" +
+                                    "-fx-border-color: #2a2a4a;" +
+                                    "-fx-border-radius: 6;" +
+                                    "-fx-padding: 8 20;" +
+                                    "-fx-cursor: hand;");
+                }
+            }
+        });
+    }
+
     private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
+        // Legacy stub — kept for compilation safety. Prefer AlertDialog static methods.
+        if (type == Alert.AlertType.INFORMATION)
+            AlertDialog.showInfo(title, content);
+        else if (type == Alert.AlertType.ERROR)
+            AlertDialog.showError(title, content);
+        else if (type == Alert.AlertType.WARNING)
+            AlertDialog.showWarning(title, content);
+        else
+            AlertDialog.showInfo(title, content);
     }
 }

@@ -34,12 +34,12 @@ import java.util.Map;
  * Main application window for the Adaptive Learning Intelligence Platform.
  *
  * UPGRADED: Modern SaaS-style dashboard with:
- *   - Left sidebar navigation (replaces JTabbedPane)
- *   - Top header bar with role display and logout
- *   - CardLayout center content area
- *   - Dashboard metric cards
- *   - Role-based access control
- *   - Modern table renderers with badges and arrows
+ * - Left sidebar navigation (replaces JTabbedPane)
+ * - Top header bar with role display and logout
+ * - CardLayout center content area
+ * - Dashboard metric cards
+ * - Role-based access control
+ * - Modern table renderers with badges and arrows
  *
  * All business logic remains delegated to service classes.
  */
@@ -71,14 +71,8 @@ public class MainFrame extends JFrame {
     private final java.util.List<JLabel> sidebarItems = new ArrayList<>();
 
     // --- Students Page Components ---
-    private JTextField txtStudentId, txtStudentName, txtSubject, txtScore;
-    private JButton btnAdd;
     private JTable studentTable;
     private DefaultTableModel studentTableModel;
-    private Border defaultFieldBorder;
-    private final Border errorBorder = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(StyleConstants.ERROR_RED, 2),
-            BorderFactory.createEmptyBorder(4, 8, 4, 8));
 
     // --- Subjects Page Components ---
     private JComboBox<String> cmbStudentSelector;
@@ -184,7 +178,8 @@ public class MainFrame extends JFrame {
         contentPanel = new JPanel(cardLayout);
         contentPanel.setBackground(StyleConstants.BACKGROUND);
 
-        // Role-based dashboard: STUDENT gets personal profile, others get institutional overview
+        // Role-based dashboard: STUDENT gets personal profile, others get institutional
+        // overview
         contentPanel.add(buildDashboardPage(), PAGE_DASHBOARD);
         contentPanel.add(buildStudentsPage(), PAGE_STUDENTS);
         contentPanel.add(buildSubjectsPage(), PAGE_SUBJECTS);
@@ -248,10 +243,10 @@ public class MainFrame extends JFrame {
         sidebarPanel.add(Box.createVerticalStrut(12));
 
         // Navigation items with Unicode icons
-        addSidebarItem("\u2302  " + PAGE_DASHBOARD, PAGE_DASHBOARD);     // House
-        addSidebarItem("\u2659  " + PAGE_STUDENTS, PAGE_STUDENTS);       // Person
-        addSidebarItem("\u2630  " + PAGE_SUBJECTS, PAGE_SUBJECTS);       // Menu lines
-        addSidebarItem("\u2691  " + PAGE_REPORTS, PAGE_REPORTS);          // Flag
+        addSidebarItem("\u2302  " + PAGE_DASHBOARD, PAGE_DASHBOARD); // House
+        addSidebarItem("\u2659  " + PAGE_STUDENTS, PAGE_STUDENTS); // Person
+        addSidebarItem("\u2630  " + PAGE_SUBJECTS, PAGE_SUBJECTS); // Menu lines
+        addSidebarItem("\u2691  " + PAGE_REPORTS, PAGE_REPORTS); // Flag
 
         if (currentRole.canAccessAnalytics()) {
             addSidebarItem("\u2261  " + PAGE_ANALYTICS, PAGE_ANALYTICS); // Lines
@@ -260,12 +255,12 @@ public class MainFrame extends JFrame {
             addSidebarItem("\u2699  " + PAGE_SIMULATION, PAGE_SIMULATION); // Gear
         }
         if (currentRole.canEditData()) {
-            addSidebarItem("\u270E  " + PAGE_MANAGE, PAGE_MANAGE);       // Pencil — manage students
+            addSidebarItem("\u270E  " + PAGE_MANAGE, PAGE_MANAGE); // Pencil — manage students
         }
         if (currentRole.canAccessAdmin()) {
-            addSidebarItem("\u2692  " + PAGE_ADMIN, PAGE_ADMIN);         // Hammer
+            addSidebarItem("\u2692  " + PAGE_ADMIN, PAGE_ADMIN); // Hammer
         }
-        addSidebarItem("\u2638  " + PAGE_SETTINGS, PAGE_SETTINGS);       // Settings wheel
+        addSidebarItem("\u2638  " + PAGE_SETTINGS, PAGE_SETTINGS); // Settings wheel
 
         sidebarPanel.add(Box.createVerticalGlue());
 
@@ -311,12 +306,14 @@ public class MainFrame extends JFrame {
                     item.setBackground(StyleConstants.SIDEBAR_HOVER_BG);
                 }
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 if (item != selectedSidebarItem) {
                     item.setBackground(StyleConstants.SIDEBAR_BG);
                 }
             }
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 showPage(pageName);
@@ -343,11 +340,16 @@ public class MainFrame extends JFrame {
     private void showPage(String pageName) {
         cardLayout.show(contentPanel, pageName);
         // Refresh data for specific pages
-        if (PAGE_DASHBOARD.equals(pageName)) refreshDashboardMetrics();
-        else if (PAGE_SUBJECTS.equals(pageName)) refreshStudentSelector();
-        else if (PAGE_ANALYTICS.equals(pageName)) handleRefreshAnalytics();
-        else if (PAGE_SIMULATION.equals(pageName)) refreshSimulationSelectors();
-        else if (PAGE_MANAGE.equals(pageName)) refreshManageTable();
+        if (PAGE_DASHBOARD.equals(pageName))
+            refreshDashboardMetrics();
+        else if (PAGE_SUBJECTS.equals(pageName))
+            refreshStudentSelector();
+        else if (PAGE_ANALYTICS.equals(pageName))
+            handleRefreshAnalytics();
+        else if (PAGE_SIMULATION.equals(pageName))
+            refreshSimulationSelectors();
+        else if (PAGE_MANAGE.equals(pageName))
+            refreshManageTable();
 
         // Highlight correct sidebar item
         for (JLabel si : sidebarItems) {
@@ -501,24 +503,24 @@ public class MainFrame extends JFrame {
      * TEACHER DASHBOARD — Institutional overview with class-level metrics.
      */
     private JPanel buildTeacherDashboard() {
-        return buildInstitutionalDashboard("Teacher Dashboard", 
-            "Welcome, " + currentUsername + "!\n\n"
-            + "You have full access to student data, analytics, simulation, and reports.\n"
-            + "Use the 'Manage' page to edit or delete student records.\n"
-            + "Use the 'Students' page to add new student scores.\n\n"
-            + "Quick tip: Check the Reports page for at-risk students.");
+        return buildInstitutionalDashboard("Teacher Dashboard",
+                "Welcome, " + currentUsername + "!\n\n"
+                        + "You have full access to student data, analytics, simulation, and reports.\n"
+                        + "Use the 'Manage' page to edit or delete student records.\n"
+                        + "Use the 'Students' page to add new student scores.\n\n"
+                        + "Quick tip: Check the Reports page for at-risk students.");
     }
 
     /**
      * ADMIN DASHBOARD — Institutional overview with system-level context.
      */
     private JPanel buildAdminDashboard() {
-        return buildInstitutionalDashboard("Admin Dashboard", 
-            "Welcome, " + currentUsername + "!\n\n"
-            + "Full system administration access enabled.\n"
-            + "Use the Admin page to manage users, roles, and system configuration.\n"
-            + "Use the 'Manage' page to edit or delete student records.\n\n"
-            + "System: SQLite DB active  |  Role: " + currentRole.getLabel());
+        return buildInstitutionalDashboard("Admin Dashboard",
+                "Welcome, " + currentUsername + "!\n\n"
+                        + "Full system administration access enabled.\n"
+                        + "Use the Admin page to manage users, roles, and system configuration.\n"
+                        + "Use the 'Manage' page to edit or delete student records.\n\n"
+                        + "System: SQLite DB active  |  Role: " + currentRole.getLabel());
     }
 
     /**
@@ -571,7 +573,7 @@ public class MainFrame extends JFrame {
     }
 
     private JPanel buildMetricCard(String label, JLabel valueLabel,
-                                    Color accentColor, Color bgTint) {
+            Color accentColor, Color bgTint) {
         JPanel card = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -652,13 +654,19 @@ public class MainFrame extends JFrame {
     private void refreshStudentProfile() {
         List<Student> visible = getVisibleStudents();
         if (visible.isEmpty()) {
-            if (profileAvg != null) profileAvg.setText("--");
-            if (profileRisk != null) profileRisk.setText("--");
-            if (profileTrend != null) profileTrend.setText("--");
-            if (profileSubjectCount != null) profileSubjectCount.setText("0");
+            if (profileAvg != null)
+                profileAvg.setText("--");
+            if (profileRisk != null)
+                profileRisk.setText("--");
+            if (profileTrend != null)
+                profileTrend.setText("--");
+            if (profileSubjectCount != null)
+                profileSubjectCount.setText("0");
             if (txtProfileSubjects != null)
-                txtProfileSubjects.setText("No linked student data.\n\nAsk your administrator to link your account to a student record.");
-            if (txtProfileRecs != null) txtProfileRecs.setText("");
+                txtProfileSubjects.setText(
+                        "No linked student data.\n\nAsk your administrator to link your account to a student record.");
+            if (txtProfileRecs != null)
+                txtProfileRecs.setText("");
             return;
         }
 
@@ -666,10 +674,14 @@ public class MainFrame extends JFrame {
         RiskScore risk = riskPredictor.assessRisk(student);
         TrendDirection trend = trendAnalyzer.getTrend(student.getId());
 
-        if (profileAvg != null) profileAvg.setText(String.format("%.1f", student.getAverageScore()));
-        if (profileRisk != null) profileRisk.setText(risk.getLevel().getLabel());
-        if (profileTrend != null) profileTrend.setText(trend.getLabel());
-        if (profileSubjectCount != null) profileSubjectCount.setText(String.valueOf(student.getSubjects().size()));
+        if (profileAvg != null)
+            profileAvg.setText(String.format("%.1f", student.getAverageScore()));
+        if (profileRisk != null)
+            profileRisk.setText(risk.getLevel().getLabel());
+        if (profileTrend != null)
+            profileTrend.setText(trend.getLabel());
+        if (profileSubjectCount != null)
+            profileSubjectCount.setText(String.valueOf(student.getSubjects().size()));
 
         // Subject details
         if (txtProfileSubjects != null) {
@@ -677,7 +689,7 @@ public class MainFrame extends JFrame {
             sb.append("Student: ").append(student.getName()).append(" (").append(student.getId()).append(")\n");
             sb.append("Average: ").append(String.format("%.2f", student.getAverageScore())).append("\n");
             sb.append("Risk: ").append(risk.getLevel().getLabel())
-              .append(" (").append(String.format("%.1f", risk.getNumericScore())).append("/100)\n");
+                    .append(" (").append(String.format("%.1f", risk.getNumericScore())).append("/100)\n");
             sb.append("Trend: ").append(trend.getLabel()).append(" ").append(trend.getArrow()).append("\n\n");
             sb.append("--- All Subjects ---\n");
             for (Subject sub : student.getSubjects()) {
@@ -704,7 +716,8 @@ public class MainFrame extends JFrame {
             StringBuilder sr = new StringBuilder();
             sr.append("Personalized AI Recommendations\n");
             sr.append("================================\n\n");
-            for (String r : recs) sr.append(r).append("\n");
+            for (String r : recs)
+                sr.append(r).append("\n");
             txtProfileRecs.setText(sr.toString());
             txtProfileRecs.setCaretPosition(0);
         }
@@ -727,70 +740,14 @@ public class MainFrame extends JFrame {
         JPanel body = new JPanel(new BorderLayout(0, StyleConstants.GAP_V));
         body.setOpaque(false);
 
-        // Input card
-        DashboardCard inputCard = new DashboardCard(
-                currentRole.canEditData() ? "Add Student / Subject" : "Student Data (Read Only)");
-
-        JPanel inputPanel = new JPanel(new GridBagLayout());
-        inputPanel.setOpaque(false);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = StyleConstants.FORM_INSETS;
-        gbc.anchor = GridBagConstraints.WEST;
-
-        gbc.gridx = 0; gbc.gridy = 0;
-        inputPanel.add(createLabel("Student ID:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
-        txtStudentId = createTextField();
-        txtStudentId.setToolTipText("Unique alphanumeric identifier");
-        txtStudentId.setEditable(currentRole.canEditData());
-        inputPanel.add(txtStudentId, gbc);
-
-        gbc.gridx = 2; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
-        inputPanel.add(createLabel("Name:"), gbc);
-        gbc.gridx = 3; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
-        txtStudentName = createTextField();
-        txtStudentName.setToolTipText("Letters and spaces only");
-        txtStudentName.setEditable(currentRole.canEditData());
-        inputPanel.add(txtStudentName, gbc);
-
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
-        inputPanel.add(createLabel("Subject:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
-        txtSubject = createTextField();
-        txtSubject.setToolTipText("e.g. Math, Physics, English");
-        txtSubject.setEditable(currentRole.canEditData());
-        inputPanel.add(txtSubject, gbc);
-
-        gbc.gridx = 2; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
-        inputPanel.add(createLabel("Score:"), gbc);
-        gbc.gridx = 3; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
-        txtScore = createTextField();
-        txtScore.setToolTipText("0 to 100");
-        txtScore.setEditable(currentRole.canEditData());
-        inputPanel.add(txtScore, gbc);
-
-        defaultFieldBorder = txtStudentId.getBorder();
-
-        if (currentRole.canEditData()) {
-            gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 4;
-            gbc.fill = GridBagConstraints.NONE; gbc.anchor = GridBagConstraints.CENTER; gbc.weightx = 0;
-            btnAdd = new StyledButton("Add / Submit");
-            btnAdd.setFont(StyleConstants.BUTTON_FONT);
-            btnAdd.setBackground(StyleConstants.PRIMARY);
-            btnAdd.setForeground(Color.WHITE);
-            btnAdd.setPreferredSize(StyleConstants.BUTTON_SIZE);
-            btnAdd.addActionListener(e -> handleAddStudent());
-            inputPanel.add(btnAdd, gbc);
-        }
-
-        inputCard.setContent(inputPanel);
-        body.add(inputCard, BorderLayout.NORTH);
-
         // Table card
         DashboardCard tableCard = new DashboardCard("Student Records");
-        String[] columns = {"ID", "Name", "Average", "Risk Level", "Risk Score", "Trend"};
+        String[] columns = { "ID", "Name", "Average", "Risk Level", "Risk Score", "Trend" };
         studentTableModel = new DefaultTableModel(columns, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+            @Override
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         studentTable = new JTable(studentTableModel);
         setupModernTable(studentTable);
@@ -803,94 +760,17 @@ public class MainFrame extends JFrame {
         tableCard.setContent(scroll);
         body.add(tableCard, BorderLayout.CENTER);
 
-        page.add(body, BorderLayout.CENTER);
         return page;
-    }
-
-    private void handleAddStudent() {
-        resetFieldBorders();
-        String id = txtStudentId.getText().trim();
-        String name = txtStudentName.getText().trim();
-        String subjectName = txtSubject.getText().trim();
-        String scoreText = txtScore.getText().trim();
-
-        boolean valid = true;
-        if (id.isEmpty()) { txtStudentId.setBorder(errorBorder); valid = false; }
-        if (name.isEmpty()) { txtStudentName.setBorder(errorBorder); valid = false; }
-        if (subjectName.isEmpty()) { txtSubject.setBorder(errorBorder); valid = false; }
-        if (scoreText.isEmpty()) { txtScore.setBorder(errorBorder); valid = false; }
-
-        if (!valid) { showError("All fields are required."); return; }
-        if (!name.matches("[a-zA-Z\\s]+")) {
-            txtStudentName.setBorder(errorBorder);
-            showError("Name must contain only letters and spaces.");
-            return;
-        }
-
-        double score;
-        try { score = Double.parseDouble(scoreText); }
-        catch (NumberFormatException ex) {
-            txtScore.setBorder(errorBorder);
-            showError("Score must be a valid number.");
-            return;
-        }
-        if (score < 0 || score > 100) {
-            txtScore.setBorder(errorBorder);
-            showError("Score must be between 0 and 100.");
-            return;
-        }
-
-        Student student = dataManager.findStudentById(id);
-        boolean isNew = (student == null);
-
-        if (!isNew && !student.getName().equalsIgnoreCase(name)) {
-            txtStudentId.setBorder(errorBorder);
-            showError("ID '" + id + "' exists with name '" + student.getName() + "'.");
-            return;
-        }
-
-        // Persist to database via DataManager (which delegates to DAOs)
-        dataManager.addSubjectScore(id, name, subjectName, score);
-
-        // Reload from DB to get the updated student with all subjects
-        dataManager.refreshCache();
-        student = dataManager.findStudentById(id);
-        if (student == null) { showError("Failed to save student data."); return; }
-
-        trendAnalyzer.recordAverage(student.getId(), student.getAverageScore());
-
-        RiskScore risk = riskPredictor.assessRisk(student);
-        TrendDirection trend = trendAnalyzer.getTrend(student.getId());
-        List<String> recs = adaptivePlanner.generateRecommendations(student, risk, trend);
-
-        try { fileManager.saveEnhancedReport(student, risk, trend, recs); }
-        catch (IOException ex) { /* Report export is optional, don't block flow */ }
-
-        refreshStudentTable();
-        txtSubject.setText(""); txtScore.setText("");
-
-        showInfo(isNew
-                ? "Student '" + name + "' added.\nRisk: " + risk.getSummary()
-                : "Subject added to '" + student.getName() + "'.\nRisk: " + risk.getSummary()
-                  + "\nTrend: " + trend.getLabel());
-    }
-
-    private void resetFieldBorders() {
-        if (defaultFieldBorder != null) {
-            txtStudentId.setBorder(defaultFieldBorder);
-            txtStudentName.setBorder(defaultFieldBorder);
-            txtSubject.setBorder(defaultFieldBorder);
-            txtScore.setBorder(defaultFieldBorder);
-        }
     }
 
     private void refreshStudentTable() {
         studentTableModel.setRowCount(0);
         for (Student s : getVisibleStudents()) {
-            if (s.getSubjects().isEmpty()) continue;
+            if (s.getSubjects().isEmpty())
+                continue;
             RiskScore risk = riskPredictor.assessRisk(s);
             TrendDirection trend = trendAnalyzer.getTrend(s.getId());
-            studentTableModel.addRow(new Object[]{
+            studentTableModel.addRow(new Object[] {
                     s.getId(), s.getName(),
                     String.format("%.2f", s.getAverageScore()),
                     risk.getLevel().getLabel(),
@@ -961,7 +841,8 @@ public class MainFrame extends JFrame {
         if (students.isEmpty()) {
             cmbStudentSelector.addItem("-- No students yet --");
         } else {
-            for (Student s : students) cmbStudentSelector.addItem(s.getId() + " - " + s.getName());
+            for (Student s : students)
+                cmbStudentSelector.addItem(s.getId() + " - " + s.getName());
         }
     }
 
@@ -969,12 +850,14 @@ public class MainFrame extends JFrame {
         List<Student> students = getVisibleStudents();
         if (students.isEmpty()) {
             txtWeakSubjects.setText("No students available.\nAdd students first.");
-            txtRecommendations.setText(""); return;
+            txtRecommendations.setText("");
+            return;
         }
         int idx = cmbStudentSelector.getSelectedIndex();
         if (idx < 0 || idx >= students.size()) {
             txtWeakSubjects.setText("Select a valid student.");
-            txtRecommendations.setText(""); return;
+            txtRecommendations.setText("");
+            return;
         }
 
         Student student = students.get(idx);
@@ -984,17 +867,24 @@ public class MainFrame extends JFrame {
         StringBuilder sb = new StringBuilder();
         sb.append("Student: ").append(student.getName()).append(" (").append(student.getId()).append(")\n");
         sb.append("Average: ").append(String.format("%.2f", student.getAverageScore())).append("\n");
-        sb.append("Risk: ").append(risk.getLevel().getLabel()).append(" (").append(String.format("%.1f", risk.getNumericScore())).append(")\n");
+        sb.append("Risk: ").append(risk.getLevel().getLabel()).append(" (")
+                .append(String.format("%.1f", risk.getNumericScore())).append(")\n");
         sb.append("Trend: ").append(trend.getLabel()).append(" ").append(trend.getArrow()).append("\n\n");
         sb.append("--- All Subjects ---\n");
         for (Subject sub : student.getSubjects()) {
             SubjectCategory cat = SubjectCategory.categorize(sub.getSubjectName());
             String marker = sub.getScore() < 60 ? " [WEAK]" : "";
-            sb.append(String.format("  %-18s : %6.2f  [%s]%s\n", sub.getSubjectName(), sub.getScore(), cat.name(), marker));
+            sb.append(String.format("  %-18s : %6.2f  [%s]%s\n", sub.getSubjectName(), sub.getScore(), cat.name(),
+                    marker));
         }
         List<Subject> weak = student.getWeakSubjects();
-        if (weak.isEmpty()) sb.append("\nNo weak subjects.");
-        else { sb.append("\n--- Weak ---\n"); for (Subject w : weak) sb.append(String.format("  %-18s : %6.2f\n", w.getSubjectName(), w.getScore())); }
+        if (weak.isEmpty())
+            sb.append("\nNo weak subjects.");
+        else {
+            sb.append("\n--- Weak ---\n");
+            for (Subject w : weak)
+                sb.append(String.format("  %-18s : %6.2f\n", w.getSubjectName(), w.getScore()));
+        }
         sb.append("\n").append(risk.getDetailedBreakdown());
         txtWeakSubjects.setText(sb.toString());
         txtWeakSubjects.setCaretPosition(0);
@@ -1002,7 +892,8 @@ public class MainFrame extends JFrame {
         List<String> recs = adaptivePlanner.generateRecommendations(student, risk, trend);
         StringBuilder sr = new StringBuilder();
         sr.append("AI Recommendations for ").append(student.getName()).append(":\n\n");
-        for (String r : recs) sr.append(r).append("\n");
+        for (String r : recs)
+            sr.append(r).append("\n");
         txtRecommendations.setText(sr.toString());
         txtRecommendations.setCaretPosition(0);
     }
@@ -1055,9 +946,12 @@ public class MainFrame extends JFrame {
         centerPanel.setOpaque(false);
 
         DashboardCard tableCard = new DashboardCard("At-Risk Students");
-        String[] cols = {"ID", "Name", "Average", "Risk Level", "Risk Score", "Trend"};
+        String[] cols = { "ID", "Name", "Average", "Risk Level", "Risk Score", "Trend" };
         reportTableModel = new DefaultTableModel(cols, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+            @Override
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         reportTable = new JTable(reportTableModel);
         setupModernTable(reportTable);
@@ -1079,7 +973,8 @@ public class MainFrame extends JFrame {
         page.add(body, BorderLayout.CENTER);
 
         reportTable.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) handleAtRiskRowSelected();
+            if (!e.getValueIsAdjusting())
+                handleAtRiskRowSelected();
         });
 
         return page;
@@ -1089,30 +984,34 @@ public class MainFrame extends JFrame {
         reportTableModel.setRowCount(0);
         List<Student> atRisk = new ArrayList<>();
         for (Student s : getVisibleStudents()) {
-            if (s.getSubjects().isEmpty()) continue;
+            if (s.getSubjects().isEmpty())
+                continue;
             RiskScore risk = riskPredictor.assessRisk(s);
             if (risk.getLevel() == Level.HIGH || risk.getLevel() == Level.MODERATE)
                 atRisk.add(s);
         }
         if (atRisk.isEmpty()) {
-            txtReportDetails.setText("No at-risk students found."); return;
+            txtReportDetails.setText("No at-risk students found.");
+            return;
         }
         for (Student s : atRisk) {
             RiskScore risk = riskPredictor.assessRisk(s);
             TrendDirection trend = trendAnalyzer.getTrend(s.getId());
-            reportTableModel.addRow(new Object[]{s.getId(), s.getName(),
+            reportTableModel.addRow(new Object[] { s.getId(), s.getName(),
                     String.format("%.2f", s.getAverageScore()), risk.getLevel().getLabel(),
-                    String.format("%.1f", risk.getNumericScore()), trend.getLabel()});
+                    String.format("%.1f", risk.getNumericScore()), trend.getLabel() });
         }
         txtReportDetails.setText("Found " + atRisk.size() + " at-risk student(s).\nSelect a row for details.");
     }
 
     private void handleAtRiskRowSelected() {
         int row = reportTable.getSelectedRow();
-        if (row < 0) return;
+        if (row < 0)
+            return;
         String id = (String) reportTableModel.getValueAt(row, 0);
         Student student = dataManager.findStudentById(id);
-        if (student == null) return;
+        if (student == null)
+            return;
 
         RiskScore risk = riskPredictor.assessRisk(student);
         TrendDirection trend = trendAnalyzer.getTrend(student.getId());
@@ -1123,7 +1022,8 @@ public class MainFrame extends JFrame {
         sb.append("========================================\n");
         sb.append("Student: ").append(student.getName()).append(" (").append(student.getId()).append(")\n");
         sb.append("Average: ").append(String.format("%.2f", student.getAverageScore())).append("\n");
-        sb.append("Risk: ").append(risk.getLevel().getLabel()).append(" (").append(String.format("%.1f", risk.getNumericScore())).append(")\n");
+        sb.append("Risk: ").append(risk.getLevel().getLabel()).append(" (")
+                .append(String.format("%.1f", risk.getNumericScore())).append(")\n");
         sb.append("Trend: ").append(trend.getLabel()).append(" ").append(trend.getArrow()).append("\n\n");
         sb.append("--- Subjects ---\n");
         for (Subject sub : student.getSubjects()) {
@@ -1132,27 +1032,34 @@ public class MainFrame extends JFrame {
         }
         sb.append("\n").append(risk.getDetailedBreakdown());
         sb.append("\n--- AI Recommendations ---\n");
-        for (String r : recs) sb.append(r).append("\n");
+        for (String r : recs)
+            sb.append(r).append("\n");
         txtReportDetails.setText(sb.toString());
         txtReportDetails.setCaretPosition(0);
     }
 
     private void handleBulkExport() {
         List<Student> students = getVisibleStudents();
-        if (students.isEmpty()) { showError("No students to export."); return; }
+        if (students.isEmpty()) {
+            showError("No students to export.");
+            return;
+        }
         List<RiskScore> risks = new ArrayList<>();
         List<TrendDirection> trends = new ArrayList<>();
         List<List<String>> allRecs = new ArrayList<>();
         for (Student s : students) {
             RiskScore r = riskPredictor.assessRisk(s);
             TrendDirection t = trendAnalyzer.getTrend(s.getId());
-            risks.add(r); trends.add(t);
+            risks.add(r);
+            trends.add(t);
             allRecs.add(adaptivePlanner.generateRecommendations(s, r, t));
         }
         try {
             fileManager.saveBulkReport(students, risks, trends, allRecs);
             showInfo("Exported " + students.size() + " reports to academic_report.txt.");
-        } catch (IOException ex) { showError("Export failed: " + ex.getMessage()); }
+        } catch (IOException ex) {
+            showError("Export failed: " + ex.getMessage());
+        }
     }
 
     // ==========================================
@@ -1225,30 +1132,45 @@ public class MainFrame extends JFrame {
         gbc.insets = StyleConstants.FORM_INSETS;
         gbc.anchor = GridBagConstraints.WEST;
 
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         inputPanel.add(createLabel("Student:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         cmbSimStudent = new JComboBox<>();
         cmbSimStudent.setFont(StyleConstants.BODY_FONT);
         cmbSimStudent.setPreferredSize(new Dimension(250, StyleConstants.COMBO_HEIGHT));
         inputPanel.add(cmbSimStudent, gbc);
 
-        gbc.gridx = 2; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 2;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
         inputPanel.add(createLabel("Subject:"), gbc);
-        gbc.gridx = 3; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         cmbSimSubject = new JComboBox<>();
         cmbSimSubject.setFont(StyleConstants.BODY_FONT);
         cmbSimSubject.setPreferredSize(new Dimension(200, StyleConstants.COMBO_HEIGHT));
         inputPanel.add(cmbSimSubject, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
         inputPanel.add(createLabel("Score Change:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         txtSimDelta = createTextField();
         txtSimDelta.setToolTipText("+10 or -5");
         inputPanel.add(txtSimDelta, gbc);
 
-        gbc.gridx = 2; gbc.gridwidth = 2; gbc.fill = GridBagConstraints.NONE; gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridx = 2;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
         StyledButton btnRun = new StyledButton("Run Simulation");
         btnRun.setFont(StyleConstants.BUTTON_FONT);
         btnRun.setBackground(StyleConstants.ACCENT_ORANGE);
@@ -1273,32 +1195,49 @@ public class MainFrame extends JFrame {
     private void refreshSimulationSelectors() {
         cmbSimStudent.removeAllItems();
         List<Student> students = getVisibleStudents();
-        if (students.isEmpty()) cmbSimStudent.addItem("-- No students --");
-        else for (Student s : students) cmbSimStudent.addItem(s.getId() + " - " + s.getName());
+        if (students.isEmpty())
+            cmbSimStudent.addItem("-- No students --");
+        else
+            for (Student s : students)
+                cmbSimStudent.addItem(s.getId() + " - " + s.getName());
     }
 
     private void populateSimSubjects() {
         cmbSimSubject.removeAllItems();
         int idx = cmbSimStudent.getSelectedIndex();
         List<Student> students = getVisibleStudents();
-        if (idx < 0 || idx >= students.size()) return;
-        for (Subject sub : students.get(idx).getSubjects()) cmbSimSubject.addItem(sub.getSubjectName());
+        if (idx < 0 || idx >= students.size())
+            return;
+        for (Subject sub : students.get(idx).getSubjects())
+            cmbSimSubject.addItem(sub.getSubjectName());
     }
 
     private void handleRunSimulation() {
         List<Student> students = getVisibleStudents();
         int idx = cmbSimStudent.getSelectedIndex();
-        if (idx < 0 || idx >= students.size()) { showError("Select a student."); return; }
+        if (idx < 0 || idx >= students.size()) {
+            showError("Select a student.");
+            return;
+        }
         String subName = (String) cmbSimSubject.getSelectedItem();
-        if (subName == null) { showError("Select a subject."); return; }
+        if (subName == null) {
+            showError("Select a subject.");
+            return;
+        }
         double delta;
-        try { delta = Double.parseDouble(txtSimDelta.getText().trim()); }
-        catch (NumberFormatException ex) { showError("Enter a valid number."); return; }
+        try {
+            delta = Double.parseDouble(txtSimDelta.getText().trim());
+        } catch (NumberFormatException ex) {
+            showError("Enter a valid number.");
+            return;
+        }
         try {
             SimulationResult result = simulationService.simulateScoreChange(students.get(idx), subName, delta);
             txtSimResult.setText(result.getReport());
             txtSimResult.setCaretPosition(0);
-        } catch (IllegalArgumentException ex) { showError(ex.getMessage()); }
+        } catch (IllegalArgumentException ex) {
+            showError(ex.getMessage());
+        }
     }
 
     // ==========================================
@@ -1363,15 +1302,20 @@ public class MainFrame extends JFrame {
 
         // Student table with all details
         DashboardCard tableCard = new DashboardCard("All Student Records");
-        String[] cols = {"ID", "Name", "Subjects", "Average", "Risk Level", "Risk Score", "Trend"};
+        String[] cols = { "ID", "Name", "Subjects", "Average", "Risk Level", "Risk Score", "Trend" };
         manageTableModel = new DefaultTableModel(cols, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+            @Override
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         manageTable = new JTable(manageTableModel);
         setupModernTable(manageTable);
         // Override renderers for Risk and Trend columns (indices 4 and 6)
-        if (manageTable.getColumnCount() > 4) manageTable.getColumnModel().getColumn(4).setCellRenderer(new RiskBadgeRenderer());
-        if (manageTable.getColumnCount() > 6) manageTable.getColumnModel().getColumn(6).setCellRenderer(new TrendArrowRenderer());
+        if (manageTable.getColumnCount() > 4)
+            manageTable.getColumnModel().getColumn(4).setCellRenderer(new RiskBadgeRenderer());
+        if (manageTable.getColumnCount() > 6)
+            manageTable.getColumnModel().getColumn(6).setCellRenderer(new TrendArrowRenderer());
 
         JScrollPane scroll = new JScrollPane(manageTable);
         scroll.setBorder(BorderFactory.createEmptyBorder());
@@ -1384,25 +1328,29 @@ public class MainFrame extends JFrame {
     }
 
     private void refreshManageTable() {
-        if (manageTableModel == null) return;
+        if (manageTableModel == null)
+            return;
         manageTableModel.setRowCount(0);
         for (Student s : getVisibleStudents()) {
             RiskScore risk = s.getSubjects().isEmpty() ? null : riskPredictor.assessRisk(s);
             TrendDirection trend = trendAnalyzer.getTrend(s.getId());
-            manageTableModel.addRow(new Object[]{
-                s.getId(), s.getName(),
-                String.valueOf(s.getSubjects().size()),
-                String.format("%.2f", s.getAverageScore()),
-                risk != null ? risk.getLevel().getLabel() : "N/A",
-                risk != null ? String.format("%.1f", risk.getNumericScore()) : "N/A",
-                trend.getLabel()
+            manageTableModel.addRow(new Object[] {
+                    s.getId(), s.getName(),
+                    String.valueOf(s.getSubjects().size()),
+                    String.format("%.2f", s.getAverageScore()),
+                    risk != null ? risk.getLevel().getLabel() : "N/A",
+                    risk != null ? String.format("%.1f", risk.getNumericScore()) : "N/A",
+                    trend.getLabel()
             });
         }
     }
 
     private void handleEditStudentName() {
         int row = manageTable.getSelectedRow();
-        if (row < 0) { showError("Select a student row to edit."); return; }
+        if (row < 0) {
+            showError("Select a student row to edit.");
+            return;
+        }
         String studentId = (String) manageTableModel.getValueAt(row, 0);
         String currentName = (String) manageTableModel.getValueAt(row, 1);
 
@@ -1411,7 +1359,8 @@ public class MainFrame extends JFrame {
                 "Edit Student Name", JOptionPane.PLAIN_MESSAGE,
                 null, null, currentName);
 
-        if (newName == null || newName.trim().isEmpty()) return;
+        if (newName == null || newName.trim().isEmpty())
+            return;
         newName = newName.trim();
         if (!newName.matches("[a-zA-Z\\s]+")) {
             showError("Name must contain only letters and spaces.");
@@ -1431,10 +1380,16 @@ public class MainFrame extends JFrame {
 
     private void handleEditScore() {
         int row = manageTable.getSelectedRow();
-        if (row < 0) { showError("Select a student row first."); return; }
+        if (row < 0) {
+            showError("Select a student row first.");
+            return;
+        }
         String studentId = (String) manageTableModel.getValueAt(row, 0);
         Student student = dataManager.findStudentById(studentId);
-        if (student == null) { showError("Student not found."); return; }
+        if (student == null) {
+            showError("Student not found.");
+            return;
+        }
 
         if (student.getSubjects().isEmpty()) {
             showError("This student has no subjects to edit.");
@@ -1453,28 +1408,44 @@ public class MainFrame extends JFrame {
                 "Edit Score", JOptionPane.PLAIN_MESSAGE,
                 null, subjectNames, subjectNames[0]);
 
-        if (selected == null) return;
+        if (selected == null)
+            return;
         int subIdx = -1;
         for (int i = 0; i < subjectNames.length; i++) {
-            if (subjectNames[i].equals(selected)) { subIdx = i; break; }
+            if (subjectNames[i].equals(selected)) {
+                subIdx = i;
+                break;
+            }
         }
-        if (subIdx < 0) return;
+        if (subIdx < 0)
+            return;
 
         Subject targetSubject = student.getSubjects().get(subIdx);
         String newScoreStr = JOptionPane.showInputDialog(this,
                 "Enter new score for " + targetSubject.getSubjectName() + ":",
                 String.format("%.1f", targetSubject.getScore()));
 
-        if (newScoreStr == null || newScoreStr.trim().isEmpty()) return;
+        if (newScoreStr == null || newScoreStr.trim().isEmpty())
+            return;
         double newScore;
-        try { newScore = Double.parseDouble(newScoreStr.trim()); }
-        catch (NumberFormatException e) { showError("Score must be a valid number."); return; }
-        if (newScore < 0 || newScore > 100) { showError("Score must be between 0 and 100."); return; }
+        try {
+            newScore = Double.parseDouble(newScoreStr.trim());
+        } catch (NumberFormatException e) {
+            showError("Score must be a valid number.");
+            return;
+        }
+        if (newScore < 0 || newScore > 100) {
+            showError("Score must be between 0 and 100.");
+            return;
+        }
 
         // Find DB IDs and update
         int studentDbId = dataManager.getStudentDAO().findDbIdByStudentId(studentId);
         int subjectDbId = dataManager.getSubjectDAO().findIdByName(targetSubject.getSubjectName());
-        if (studentDbId < 0 || subjectDbId < 0) { showError("Could not resolve DB IDs."); return; }
+        if (studentDbId < 0 || subjectDbId < 0) {
+            showError("Could not resolve DB IDs.");
+            return;
+        }
 
         boolean ok = dataManager.getScoreDAO().updateScore(studentDbId, subjectDbId, newScore);
         if (ok) {
@@ -1489,16 +1460,20 @@ public class MainFrame extends JFrame {
 
     private void handleDeleteStudent() {
         int row = manageTable.getSelectedRow();
-        if (row < 0) { showError("Select a student row to delete."); return; }
+        if (row < 0) {
+            showError("Select a student row to delete.");
+            return;
+        }
         String studentId = (String) manageTableModel.getValueAt(row, 0);
         String studentName = (String) manageTableModel.getValueAt(row, 1);
 
         int confirm = JOptionPane.showConfirmDialog(this,
                 "Are you sure you want to delete student '" + studentName + "' (" + studentId + ")?\n"
-                + "This will permanently remove all their scores.",
+                        + "This will permanently remove all their scores.",
                 "Confirm Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
-        if (confirm != JOptionPane.YES_OPTION) return;
+        if (confirm != JOptionPane.YES_OPTION)
+            return;
 
         boolean ok = dataManager.getStudentDAO().deleteByStudentId(studentId);
         if (ok) {
@@ -1537,29 +1512,45 @@ public class MainFrame extends JFrame {
         gbc.insets = StyleConstants.FORM_INSETS;
         gbc.anchor = GridBagConstraints.WEST;
 
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         pwPanel.add(createLabel("Current Password:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         JPasswordField txtCurrentPw = new JPasswordField(20);
         txtCurrentPw.setMargin(StyleConstants.TEXT_FIELD_MARGIN);
         pwPanel.add(txtCurrentPw, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
         pwPanel.add(createLabel("New Password:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         JPasswordField txtNewPw = new JPasswordField(20);
         txtNewPw.setMargin(StyleConstants.TEXT_FIELD_MARGIN);
         pwPanel.add(txtNewPw, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
         pwPanel.add(createLabel("Confirm Password:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         JPasswordField txtConfirmPw = new JPasswordField(20);
         txtConfirmPw.setMargin(StyleConstants.TEXT_FIELD_MARGIN);
         pwPanel.add(txtConfirmPw, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.NONE; gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
         StyledButton btnChangePw = new StyledButton("Change Password");
         btnChangePw.setFont(StyleConstants.BUTTON_FONT);
         btnChangePw.setBackground(StyleConstants.PRIMARY);
@@ -1584,7 +1575,10 @@ public class MainFrame extends JFrame {
             }
 
             User currentUser = SessionManager.getCurrentUser();
-            if (currentUser == null) { showError("No active session."); return; }
+            if (currentUser == null) {
+                showError("No active session.");
+                return;
+            }
 
             UserDAO userDAO = new UserDAO();
             if (!userDAO.verifyPassword(currentUser.getId(), currentPw)) {
@@ -1636,8 +1630,8 @@ public class MainFrame extends JFrame {
 
             JTextArea txtMigrationResult = createTextArea();
             txtMigrationResult.setText("Click a button above to import data from a legacy report file.\n\n"
-                + "This will parse the report format and insert student/subject/score records into the database.\n"
-                + "Existing records are skipped (no duplicates).");
+                    + "This will parse the report format and insert student/subject/score records into the database.\n"
+                    + "Existing records are skipped (no duplicates).");
             migrationPanel.add(new JScrollPane(txtMigrationResult), BorderLayout.CENTER);
 
             btnMigrate.addActionListener(e -> {
@@ -1731,34 +1725,53 @@ public class MainFrame extends JFrame {
         gbc.insets = StyleConstants.FORM_INSETS;
         gbc.anchor = GridBagConstraints.WEST;
 
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         addUserForm.add(createLabel("Username:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         txtNewUsername = createTextField();
         addUserForm.add(txtNewUsername, gbc);
 
-        gbc.gridx = 2; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 2;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
         addUserForm.add(createLabel("Password:"), gbc);
-        gbc.gridx = 3; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         txtNewPassword = createTextField();
         addUserForm.add(txtNewPassword, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
         addUserForm.add(createLabel("Role:"), gbc);
-        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
-        cmbNewUserRole = new JComboBox<>(new String[]{"ADMIN", "TEACHER", "STUDENT"});
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        cmbNewUserRole = new JComboBox<>(new String[] { "ADMIN", "TEACHER", "STUDENT" });
         cmbNewUserRole.setFont(StyleConstants.BODY_FONT);
         addUserForm.add(cmbNewUserRole, gbc);
 
-        gbc.gridx = 2; gbc.weightx = 0; gbc.fill = GridBagConstraints.NONE;
+        gbc.gridx = 2;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
         addUserForm.add(createLabel("Link Student ID:"), gbc);
-        gbc.gridx = 3; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        gbc.gridx = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
         txtLinkStudentId = createTextField();
         txtLinkStudentId.setToolTipText("Business student ID (e.g. S001) — only for STUDENT role");
         addUserForm.add(txtLinkStudentId, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.NONE; gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
         StyledButton btnAddUser = new StyledButton("Create User");
         btnAddUser.setFont(StyleConstants.BUTTON_FONT);
         btnAddUser.setBackground(StyleConstants.PRIMARY);
@@ -1767,7 +1780,8 @@ public class MainFrame extends JFrame {
         btnAddUser.addActionListener(e -> handleCreateUser());
         addUserForm.add(btnAddUser, gbc);
 
-        gbc.gridx = 2; gbc.gridwidth = 2;
+        gbc.gridx = 2;
+        gbc.gridwidth = 2;
         StyledButton btnToggle = new StyledButton("Toggle Enabled");
         btnToggle.setFont(StyleConstants.BUTTON_FONT);
         btnToggle.setBackground(StyleConstants.ACCENT_ORANGE);
@@ -1779,9 +1793,12 @@ public class MainFrame extends JFrame {
         userPanel.add(addUserForm, BorderLayout.NORTH);
 
         // User table
-        String[] userCols = {"ID", "Username", "Role", "Linked Student", "Enabled", "Created"};
+        String[] userCols = { "ID", "Username", "Role", "Linked Student", "Enabled", "Created" };
         userTableModel = new DefaultTableModel(userCols, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+            @Override
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         userTable = new JTable(userTableModel);
         setupModernTable(userTable);
@@ -1804,24 +1821,34 @@ public class MainFrame extends JFrame {
         gc2.insets = StyleConstants.FORM_INSETS;
         gc2.anchor = GridBagConstraints.WEST;
 
-        gc2.gridx = 0; gc2.gridy = 0;
+        gc2.gridx = 0;
+        gc2.gridy = 0;
         riskPanel.add(createLabel("Config Key:"), gc2);
-        gc2.gridx = 1; gc2.fill = GridBagConstraints.HORIZONTAL; gc2.weightx = 1.0;
-        cmbConfigKey = new JComboBox<>(new String[]{
-            "risk.weight.average", "risk.weight.weak_count", "risk.weight.lowest", "risk.weight.trend",
-            "risk.threshold.high", "risk.threshold.moderate"
+        gc2.gridx = 1;
+        gc2.fill = GridBagConstraints.HORIZONTAL;
+        gc2.weightx = 1.0;
+        cmbConfigKey = new JComboBox<>(new String[] {
+                "risk.weight.average", "risk.weight.weak_count", "risk.weight.lowest", "risk.weight.trend",
+                "risk.threshold.high", "risk.threshold.moderate"
         });
         cmbConfigKey.setFont(StyleConstants.BODY_FONT);
         riskPanel.add(cmbConfigKey, gc2);
 
-        gc2.gridx = 2; gc2.weightx = 0; gc2.fill = GridBagConstraints.NONE;
+        gc2.gridx = 2;
+        gc2.weightx = 0;
+        gc2.fill = GridBagConstraints.NONE;
         riskPanel.add(createLabel("Value:"), gc2);
-        gc2.gridx = 3; gc2.fill = GridBagConstraints.HORIZONTAL; gc2.weightx = 1.0;
+        gc2.gridx = 3;
+        gc2.fill = GridBagConstraints.HORIZONTAL;
+        gc2.weightx = 1.0;
         txtConfigValue = createTextField();
         riskPanel.add(txtConfigValue, gc2);
 
-        gc2.gridx = 0; gc2.gridy = 1; gc2.gridwidth = 4;
-        gc2.fill = GridBagConstraints.NONE; gc2.anchor = GridBagConstraints.CENTER;
+        gc2.gridx = 0;
+        gc2.gridy = 1;
+        gc2.gridwidth = 4;
+        gc2.fill = GridBagConstraints.NONE;
+        gc2.anchor = GridBagConstraints.CENTER;
         StyledButton btnSaveConfig = new StyledButton("Save Config");
         btnSaveConfig.setFont(StyleConstants.BUTTON_FONT);
         btnSaveConfig.setBackground(StyleConstants.ACCENT_GREEN);
@@ -1843,15 +1870,22 @@ public class MainFrame extends JFrame {
         gc3.insets = StyleConstants.FORM_INSETS;
         gc3.anchor = GridBagConstraints.WEST;
 
-        gc3.gridx = 0; gc3.gridy = 0;
+        gc3.gridx = 0;
+        gc3.gridy = 0;
         catPanel.add(createLabel("Subject:"), gc3);
-        gc3.gridx = 1; gc3.fill = GridBagConstraints.HORIZONTAL; gc3.weightx = 1.0;
+        gc3.gridx = 1;
+        gc3.fill = GridBagConstraints.HORIZONTAL;
+        gc3.weightx = 1.0;
         txtAdminSubject = createTextField();
         catPanel.add(txtAdminSubject, gc3);
 
-        gc3.gridx = 2; gc3.weightx = 0; gc3.fill = GridBagConstraints.NONE;
+        gc3.gridx = 2;
+        gc3.weightx = 0;
+        gc3.fill = GridBagConstraints.NONE;
         catPanel.add(createLabel("Category:"), gc3);
-        gc3.gridx = 3; gc3.fill = GridBagConstraints.HORIZONTAL; gc3.weightx = 1.0;
+        gc3.gridx = 3;
+        gc3.fill = GridBagConstraints.HORIZONTAL;
+        gc3.weightx = 1.0;
         cmbAdminCategory = new JComboBox<>();
         cmbAdminCategory.setFont(StyleConstants.BODY_FONT);
         for (SubjectCategory cat : SubjectCategory.values())
@@ -1859,8 +1893,11 @@ public class MainFrame extends JFrame {
                 cmbAdminCategory.addItem(cat.name() + " - " + cat.getDisplayName());
         catPanel.add(cmbAdminCategory, gc3);
 
-        gc3.gridx = 0; gc3.gridy = 1; gc3.gridwidth = 4;
-        gc3.fill = GridBagConstraints.NONE; gc3.anchor = GridBagConstraints.CENTER;
+        gc3.gridx = 0;
+        gc3.gridy = 1;
+        gc3.gridwidth = 4;
+        gc3.fill = GridBagConstraints.NONE;
+        gc3.anchor = GridBagConstraints.CENTER;
         StyledButton btnMap = new StyledButton("Add / Update");
         btnMap.setFont(StyleConstants.BUTTON_FONT);
         btnMap.setBackground(StyleConstants.PRIMARY);
@@ -1906,9 +1943,15 @@ public class MainFrame extends JFrame {
         String roleStr = (String) cmbNewUserRole.getSelectedItem();
         UserRole role;
         switch (roleStr) {
-            case "ADMIN": role = UserRole.ADMIN; break;
-            case "TEACHER": role = UserRole.TEACHER; break;
-            default: role = UserRole.STUDENT; break;
+            case "ADMIN":
+                role = UserRole.ADMIN;
+                break;
+            case "TEACHER":
+                role = UserRole.TEACHER;
+                break;
+            default:
+                role = UserRole.STUDENT;
+                break;
         }
 
         // Check linked student
@@ -1943,7 +1986,10 @@ public class MainFrame extends JFrame {
 
     private void handleToggleUser() {
         int row = userTable.getSelectedRow();
-        if (row < 0) { showError("Select a user row to toggle."); return; }
+        if (row < 0) {
+            showError("Select a user row to toggle.");
+            return;
+        }
         int userId = Integer.parseInt(userTableModel.getValueAt(row, 0).toString());
         String currentEnabled = userTableModel.getValueAt(row, 4).toString();
         boolean newState = !"Yes".equals(currentEnabled);
@@ -1975,10 +2021,16 @@ public class MainFrame extends JFrame {
 
     private void handleAddCategoryMapping() {
         String subName = txtAdminSubject.getText().trim();
-        if (subName.isEmpty()) { showError("Enter a subject name."); return; }
+        if (subName.isEmpty()) {
+            showError("Enter a subject name.");
+            return;
+        }
         int catIdx = cmbAdminCategory.getSelectedIndex();
-        SubjectCategory[] cats = {SubjectCategory.STEM, SubjectCategory.LANGUAGE, SubjectCategory.SOCIAL_SCIENCES};
-        if (catIdx < 0 || catIdx >= cats.length) { showError("Select a category."); return; }
+        SubjectCategory[] cats = { SubjectCategory.STEM, SubjectCategory.LANGUAGE, SubjectCategory.SOCIAL_SCIENCES };
+        if (catIdx < 0 || catIdx >= cats.length) {
+            showError("Select a category.");
+            return;
+        }
         SubjectCategory.addSubjectToCategory(subName, cats[catIdx]);
         showInfo("'" + subName + "' mapped to " + cats[catIdx].getDisplayName() + ".");
         txtAdminSubject.setText("");
@@ -1996,10 +2048,10 @@ public class MainFrame extends JFrame {
                     String sid = userDAO.resolveLinkedStudentId(u.getLinkedStudentDbId());
                     linkedSid = sid != null ? sid : "ID#" + u.getLinkedStudentDbId();
                 }
-                userTableModel.addRow(new Object[]{
-                    u.getId(), u.getUsername(), u.getRole().getLabel(),
-                    linkedSid, u.isEnabled() ? "Yes" : "No",
-                    u.getCreatedAt() != null ? u.getCreatedAt() : ""
+                userTableModel.addRow(new Object[] {
+                        u.getId(), u.getUsername(), u.getRole().getLabel(),
+                        linkedSid, u.isEnabled() ? "Yes" : "No",
+                        u.getCreatedAt() != null ? u.getCreatedAt() : ""
                 });
             }
         }
@@ -2018,12 +2070,16 @@ public class MainFrame extends JFrame {
             sb.append("\n");
 
             // Category mappings
-            SubjectCategory[] cats = {SubjectCategory.STEM, SubjectCategory.LANGUAGE, SubjectCategory.SOCIAL_SCIENCES};
+            SubjectCategory[] cats = { SubjectCategory.STEM, SubjectCategory.LANGUAGE,
+                    SubjectCategory.SOCIAL_SCIENCES };
             for (SubjectCategory cat : cats) {
                 sb.append("--- ").append(cat.getDisplayName()).append(" ---\n");
                 List<String> subs = SubjectCategory.getSubjectsInCategory(cat);
-                if (subs.isEmpty()) sb.append("  (none)\n");
-                else for (String s : subs) sb.append("  - ").append(s).append("\n");
+                if (subs.isEmpty())
+                    sb.append("  (none)\n");
+                else
+                    for (String s : subs)
+                        sb.append("  - ").append(s).append("\n");
                 sb.append("\n");
             }
 
@@ -2044,7 +2100,8 @@ public class MainFrame extends JFrame {
 
     /**
      * Returns the list of students visible to the current user.
-     * STUDENT role: only their own data (filtered by SessionManager.getLinkedStudentId()).
+     * STUDENT role: only their own data (filtered by
+     * SessionManager.getLinkedStudentId()).
      * TEACHER/ADMIN: all students.
      */
     private List<Student> getVisibleStudents() {
@@ -2066,8 +2123,13 @@ public class MainFrame extends JFrame {
         return all;
     }
 
-    private void showError(String msg) { JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE); }
-    private void showInfo(String msg) { JOptionPane.showMessageDialog(this, msg, "Success", JOptionPane.INFORMATION_MESSAGE); }
+    private void showError(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showInfo(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     private JLabel createLabel(String text) {
         JLabel label = new JLabel(text);
@@ -2132,15 +2194,18 @@ public class MainFrame extends JFrame {
             public Component getTableCellRendererComponent(JTable t, Object v,
                     boolean sel, boolean focus, int row, int col) {
                 Component c = super.getTableCellRendererComponent(t, v, sel, focus, row, col);
-                if (!sel) c.setBackground(row % 2 == 0 ? Color.WHITE : StyleConstants.TABLE_ALT_ROW);
+                if (!sel)
+                    c.setBackground(row % 2 == 0 ? Color.WHITE : StyleConstants.TABLE_ALT_ROW);
                 setHorizontalAlignment(SwingConstants.RIGHT);
                 setFont(StyleConstants.TABLE_BODY_FONT);
                 setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 12));
                 return c;
             }
         };
-        if (table.getColumnCount() > 2) table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-        if (table.getColumnCount() > 4) table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+        if (table.getColumnCount() > 2)
+            table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+        if (table.getColumnCount() > 4)
+            table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
         // Table header styling
         JTableHeader header = table.getTableHeader();
@@ -2170,8 +2235,10 @@ public class MainFrame extends JFrame {
         }
 
         // Override special columns AFTER general setup
-        if (table.getColumnCount() > 3) table.getColumnModel().getColumn(3).setCellRenderer(new RiskBadgeRenderer());
-        if (table.getColumnCount() > 5) table.getColumnModel().getColumn(5).setCellRenderer(new TrendArrowRenderer());
+        if (table.getColumnCount() > 3)
+            table.getColumnModel().getColumn(3).setCellRenderer(new RiskBadgeRenderer());
+        if (table.getColumnCount() > 5)
+            table.getColumnModel().getColumn(5).setCellRenderer(new TrendArrowRenderer());
     }
 
     // ==========================================

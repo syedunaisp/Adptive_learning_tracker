@@ -18,9 +18,9 @@ import java.util.List;
  * The public API is preserved so existing service/UI code continues to work.
  *
  * Old in-memory-only behavior is replaced by:
- *   - StudentDAO for student CRUD
- *   - SubjectDAO for subject management
- *   - ScoreDAO for score recording
+ * - StudentDAO for student CRUD
+ * - SubjectDAO for subject management
+ * - ScoreDAO for score recording
  */
 public class DataManager {
 
@@ -46,7 +46,8 @@ public class DataManager {
      * @param student the Student to add; ignored if null
      */
     public void addStudent(Student student) {
-        if (student == null) return;
+        if (student == null)
+            return;
         if (!studentDAO.existsByStudentId(student.getId())) {
             studentDAO.insert(student.getId(), student.getName());
         }
@@ -63,18 +64,20 @@ public class DataManager {
      * @param score       the score (0-100)
      */
     public void addSubjectScore(String studentId, String studentName,
-                                 String subjectName, double score) {
+            String subjectName, double score) {
         // Ensure student exists
         if (!studentDAO.existsByStudentId(studentId)) {
             studentDAO.insert(studentId, studentName);
         }
         int studentDbId = studentDAO.findDbIdByStudentId(studentId);
-        if (studentDbId < 0) return;
+        if (studentDbId < 0)
+            return;
 
         // Ensure subject exists
         String category = SubjectCategory.categorize(subjectName).name();
         int subjectDbId = subjectDAO.findOrCreate(subjectName, category);
-        if (subjectDbId < 0) return;
+        if (subjectDbId < 0)
+            return;
 
         // Insert score
         scoreDAO.insertScore(studentDbId, subjectDbId, score);
@@ -99,7 +102,8 @@ public class DataManager {
      * @return the matching Student, or null if not found
      */
     public Student findStudentById(String id) {
-        if (id == null) return null;
+        if (id == null)
+            return null;
         for (Student student : cachedStudents) {
             if (id.equals(student.getId())) {
                 return student;
@@ -152,6 +156,26 @@ public class DataManager {
      */
     public SubjectDAO getSubjectDAO() {
         return subjectDAO;
+    }
+
+    /**
+     * Updates a student's information in the DB.
+     */
+    public void updateStudent(Student student) {
+        if (student == null)
+            return;
+        studentDAO.updateStudent(student.getId(), student.getName(), student.getRollNumber(), student.getEmail());
+        refreshCache();
+    }
+
+    /**
+     * Deletes a student from the DB.
+     */
+    public void deleteStudent(String studentId) {
+        if (studentId == null)
+            return;
+        studentDAO.deleteByStudentId(studentId);
+        refreshCache();
     }
 
     /**

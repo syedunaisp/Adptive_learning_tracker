@@ -25,18 +25,23 @@ public class ReevaluationWorkflow {
      *
      * Validation: reason must be at least 10 characters.
      *
-     * @param scoreId     the student_scores.id being contested
+     * @param subjectName the subject being contested
      * @param studentDbId the student's DB primary key
      * @param reason      the reason for requesting re-evaluation
+     * @param teacherId   the teacher user ID to route the request to
      * @return true if submitted successfully
      */
-    public boolean submitRequest(int scoreId, int studentDbId, String reason) {
+    public boolean submitRequest(String subjectName, int studentDbId, String reason, int teacherId) {
         if (reason == null || reason.trim().length() < MIN_REASON_LENGTH) {
             System.err.println("ReevaluationWorkflow: Reason must be at least "
                     + MIN_REASON_LENGTH + " characters.");
             return false;
         }
-        return reevaluationDAO.submitRequest(scoreId, studentDbId, reason.trim());
+        if (subjectName == null || subjectName.trim().isEmpty()) {
+            System.err.println("ReevaluationWorkflow: Subject name is required.");
+            return false;
+        }
+        return reevaluationDAO.submitRequest(subjectName.trim(), studentDbId, reason.trim(), teacherId);
     }
 
     /**
@@ -47,25 +52,39 @@ public class ReevaluationWorkflow {
     }
 
     /**
-     * Returns all pending requests (for teacher review).
+     * Returns all pending requests for a specific teacher.
      */
-    public List<ReevaluationRequest> getPendingRequests() {
-        return reevaluationDAO.getPendingRequests();
+    public List<ReevaluationRequest> getPendingRequestsForTeacher(int teacherUserId) {
+        return reevaluationDAO.getPendingRequestsForTeacher(teacherUserId);
     }
 
     /**
-     * Approves a re-evaluation request.
+     * Approves a re-evaluation request with updated marks and reasoning.
      */
-    public boolean approveRequest(int requestId, int teacherUserId, String notes) {
+    public boolean approveRequest(int requestId, int teacherUserId, String notes, double updatedMarks) {
         return reevaluationDAO.resolveRequest(requestId, teacherUserId,
-                notes != null ? notes : "Approved");
+                notes != null ? notes : "Approved", updatedMarks);
     }
 
     /**
-     * Rejects a re-evaluation request.
+     * Rejects a re-evaluation request with reasoning.
      */
     public boolean rejectRequest(int requestId, int teacherUserId, String notes) {
         return reevaluationDAO.rejectRequest(requestId, teacherUserId,
                 notes != null ? notes : "Rejected");
+    }
+
+    /**
+     * Looks up the teacher user ID for a given student.
+     */
+    public int getStudentTeacherId(int studentDbId) {
+        return reevaluationDAO.getStudentTeacherId(studentDbId);
+    }
+
+    /**
+     * Gets the student name by their DB id.
+     */
+    public String getStudentNameById(int studentDbId) {
+        return reevaluationDAO.getStudentNameById(studentDbId);
     }
 }

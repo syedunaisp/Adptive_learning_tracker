@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tracker.ui.fx.controller.StudentDashboardController"
+            styleClass="root">
+
+    <!-- TOP: Header bar -->
+    <top>
+        <HBox styleClass="card" spacing="16" alignment="CENTER_LEFT"
+              style="-fx-background-radius: 0; -fx-border-radius: 0;">
+            <padding><Insets top="12" right="24" bottom="12" left="24"/></padding>
+            <Label text="ALIP" styleClass="form-title" style="-fx-font-size: 18px;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" text="Welcome" styleClass="secondary"/>
+            <Button text="Logout" styleClass="button-danger" onAction="#handleLogout"
+                    style="-fx-padding: 6 16;"/>
+        </HBox>
+    </top>
+
+    <!-- LEFT: Sidebar Navigation -->
+    <left>
+        <VBox styleClass="card" spacing="4" prefWidth="300"
+              style="-fx-background-radius: 0; -fx-border-radius: 0;">
+            <padding><Insets top="16" right="8" bottom="16" left="8"/></padding>
+            <Label text="NAVIGATION" styleClass="secondary"
+                   style="-fx-padding: 0 8 8 8;"/>
+            <Button fx:id="navDashboard" text="📊  Dashboard" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showOverview"/>
+            <Button fx:id="navGoals" text="🎯  My Goals" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showGoals"/>
+            <Button fx:id="navRecommendations" text="💡  Recommendations" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showRecommendations"/>
+            <Button fx:id="navReeval" text="📝  Re-evaluation" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showReevaluation"/>
+            <Button fx:id="navProfile" text="🧠  Learning Profile" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showProfile"/>
+        </VBox>
+    </left>
+
+    <!-- CENTER: Content area (swapped by sidebar clicks) -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <StackPane fx:id="contentArea">
+                <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+
+                <!-- Default: Overview -->
+                <VBox fx:id="overviewPane" spacing="20">
+                    <!-- Metric Cards Row -->
+                    <HBox spacing="16">
+                        <VBox styleClass="card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="Average Score" styleClass="secondary"/>
+                            <Label fx:id="avgScoreLabel" text="—" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #6c63ff;"/>
+                        </VBox>
+                        <VBox styleClass="card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="Risk Level" styleClass="secondary"/>
+                            <Label fx:id="riskLevelLabel" text="—" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+                        </VBox>
+                        <VBox styleClass="card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="Trend" styleClass="secondary"/>
+                            <Label fx:id="trendLabel" text="—" style="-fx-font-size: 28px; -fx-font-weight: bold;"/>
+                        </VBox>
+                        <VBox styleClass="card" spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="Percentile" styleClass="secondary"/>
+                            <Label fx:id="percentileLabel" text="—" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2ed573;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Subjects Table -->
+                    <VBox styleClass="card" spacing="12">
+                        <Label text="Subject Scores" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <TableView fx:id="subjectsTable" prefHeight="250">
+                            <columns>
+                                <TableColumn fx:id="subjectNameCol" text="Subject" prefWidth="200"/>
+                                <TableColumn fx:id="subjectScoreCol" text="Score" prefWidth="100"/>
+                                <TableColumn fx:id="subjectStatusCol" text="Status" prefWidth="120"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+
+                    <!-- Risk Explanation -->
+                    <VBox styleClass="card" spacing="12">
+                        <Label text="Risk Factor Breakdown" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <HBox fx:id="riskCardsContainer" spacing="16"/>
+                    </VBox>
+
+
+
+                    <!-- Learning Gaps -->
+                    <VBox styleClass="card" spacing="12">
+                        <Label text="Learning Gaps" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <FlowPane fx:id="gapsContainer" hgap="12" vgap="12"/>
+                    </VBox>
+                </VBox>
+            </StackPane>
+        </ScrollPane>
+    </center>
+</BorderPane>

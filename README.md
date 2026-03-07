@@ -1,48 +1,46 @@
-# ALIP - Adaptive Learning Intelligence Platform (v3.0)
+# ALIP - Adaptive Learning Intelligence Platform (v4.0)
 
 > **Database-Driven, Multi-User AI-powered Academic Risk Intelligence Platform**
 
 ## Overview
 
-ALIP v3.0 is a complete upgrade of the original Java Swing application, transforming it from a single-user, in-memory tool into a **multi-user, role-aware, database-driven platform**. It preserves the powerful **weighted multi-factor risk scoring engine**, **trend analysis**, and **adaptive recommendation system** while adding enterprise-grade security and persistence.
+ALIP v4.0 is a complete upgrade of the original Java Swing application, transforming it from a single-user, in-memory tool into a **multi-user, role-aware, database-driven platform featuring a modern JavaFX interface**. It preserves the powerful **weighted multi-factor risk scoring engine**, **trend analysis**, and **adaptive recommendation system** while adding enterprise-grade security, comprehensive dashboard capabilities, and persistence.
 
-Built with clean layered architecture principles — using **SQLite** for zero-config embedded data storage and **pure Java 21+**.
+Built with clean layered architecture principles — using **SQLite** for zero-config embedded data storage and **JavaFX 21+** for a dynamic, reactive user experience.
 
 ---
 
-## 🚀 New Features in v3.0
+## 🚀 Key Features by Component
 
-### 1. Database Persistence (SQLite)
-- All data is now securely stored in an embedded `alip_data.db` SQLite database.
-- Complete DAO (Data Access Object) layer separates SQL from business logic.
-- Referential integrity (Foreign Keys) and cascading deletes are fully enforced.
+### 1. Advanced Academic Analytics
+- **Peer Benchmarking:** Compare student performance against class averages and the top 10% percentiles.
+- **Learning Gap Mapping:** Isolate topic-level strengths and weaknesses to prevent compounding knowledge deficits.
+- **Trajectory Prediction:** Calculate moving averages via `TrendAnalyzer` to predict future grades.
+- **Institutional Dashboards:** Aggregated system-wide metric monitoring for Admins.
 
-### 2. Role-Based Access Control & Security
-- **Authentication:** Login system with SHA-256 + per-password salt hashing.
-- **Three distinct roles:**
-  - **ADMIN:** Full system access (User management, Risk configuration).
-  - **TEACHER:** Manage students (Add/Edit/Delete), access Analytics & Simulations.
-  - **STUDENT:** View-only access to their own personal profile and recommendations.
-- **Session Management:** Secure runtime tracking of logged-in user permissions.
+### 2. Intelligent Intervention System
+- **Study Strategy Advising:** Evaluate students using the `ProfileService` to determine learning styles (Visual, Abstract, Practice-based) and recommend tailored strategies.
+- **Intervention Planning:** Teachers can create, assign, and track targeted coaching plans using the `InterventionEngine`.
+- **"What-If" Simulations:** Safely simulate score changes (e.g. +10 on Math) using `SimulationService` to instantly see how it would affect Risk scores before committing actual grades.
 
-### 3. Role-Aware Dashboards
-- **Teacher/Admin Dashboard:** Institutional overview with system-wide metric cards (Total Students, High Risk Count, Average, Weakest Subject).
-- **Student Profile Dashboard:** A personalized view showing only the logged-in student's average, risk level, trend, subject scores, and targeted AI recommendations.
+### 3. Student Empowerment & Workflow
+- **Goal Tracking:** Students can set personal academic goals (`GoalTracker`) and map them to their learning profiles.
+- **Exam Artifacts & Feedback:** securely upload, store, and review graded answer sheets directly inside the platform.
+- **Re-evaluation Workflow:** Request grade revisions securely through the `ReevaluationWorkflow`, linking teachers to automated approval/rejection loops.
 
-### 4. Admin & Teacher Management Panels
-- **User Management (Admin):** Create users, assign roles, link student IDs to student accounts, and toggle account access.
-- **Risk Configuration (Admin):** Dynamically adjust risk engine weights and thresholds directly from the database.
-- **Student CRUD (Teacher):** A dedicated "Manage Students" page to edit student names, modify specific subject scores, or permanently delete student records.
+### 4. Comprehensive Student Management 
+- **Roster Building:** Organize students into designated `classes` and `sections`.
+- **Bulk Excel Import:** Integrated **Apache POI** (v5.2.5) enables teachers to natively import rosters via `.xlsx` files without technical overhead.
+- Augmented student entities mapping Roll Numbers, Emails, and Class IDs directly to the backend database.
 
-### 5. UI/UX Modernization
-- Complete visual overhaul of the Login and Main screens.
-- SaaS-style sidebar navigation with Unicode icons.
-- Modern shadow-casting cards, rounded input fields, and hover-darken buttons.
-- Clean, grid-based "At-a-Glance" metric cards.
-- Custom table renderers (color-coded Risk Badges and Trend Arrows).
+### 5. Role-Aware JavaFX Dashboards
+- **Student Dashboard:** View GPA metrics, recent trends, AI recommendations (`AdaptivePlanner`), and active re-evaluation requests.
+- **Teacher Dashboard:** Detailed class metrics table with real-time risk/trend badges, What-If simulation panels, and full Student Management controls.
+- **Admin Dashboard:** High-level system metrics, comprehensive user management table (create/disable users, link students), and read-only settings dialog detailing schema internals and risk configurations.
 
-### 6. Legacy Data Migration
-- Built-in tool to import legacy `academic_report.txt` files directly into the new relational database structure.
+### 6. Database Persistence & Security (SQLite)
+- **v4 Schema Structure:** `alip_data.db` manages 13+ robust tables handling users, roles, subject scores, topic sub-scores, interventions, and re-evaluations.
+- **Authentication & RBAC:** Unique per-password salted hashing (SHA-256) combined with a SessionManager tracking strict Admin, Teacher, and Student permissions.
 
 ---
 
@@ -53,7 +51,7 @@ The database is automatically created and seeded on first run. Use these credent
 | Role    | Username | Password     | Access Level |
 |---------|----------|--------------|--------------|
 | **Admin**   | `admin`    | `admin123`     | Full system & user management |
-| **Teacher** | `teacher`  | `teacher123`   | Student CRUD, Analytics, Simulation |
+| **Teacher** | `teacher`  | `teacher123`   | Student Management, Analytics, Simulation |
 
 *(Student accounts can be created by the Admin and linked to a specific Student ID).*
 
@@ -61,25 +59,36 @@ The database is automatically created and seeded on first run. Use these credent
 
 ## 🛠️ Build and Run Instructions
 
-This project uses standard `javac` and requires the provided libraries in the `lib/` folder (SQLite JDBC + SLF4J).
+This project requires standard `javac` and the provided libraries in the `lib/` folder (SQLite JDBC, SLF4J, OpenJFX 21.0.2, Apache POI).
 
 ### Windows (PowerShell/CMD)
 
-```bash
+The simplest way to run the application is to use the provided `run.ps1` script, which configures the classpath, attaches the OpenJFX modules, and passes necessary flags automatically:
+
+```powershell
 # 1. Navigate to the project directory
 cd C:\Users\syedu\OneDrive\Documents\codes\IRP
 
-# 2. Clean previous builds
-rm -rf bin/tracker
-
-# 3. Compile the project (include lib jars in classpath)
-javac -d bin -cp "lib/sqlite-jdbc-3.45.1.0.jar;lib/slf4j-api-2.0.9.jar" -sourcepath src src/tracker/Main.java
-
-# 4. Run the application
-java -cp "bin;lib/sqlite-jdbc-3.45.1.0.jar;lib/slf4j-api-2.0.9.jar;lib/slf4j-nop-2.0.9.jar" tracker.Main
+# 2. Run the application
+.\run.ps1
 ```
 
-*Note: If you are using Java 21+, you may see a warning about `System::load` dynamically loading an agent (from the SQLite driver). This is harmless and can be ignored, or suppressed by adding `--enable-native-access=ALL-UNNAMED` to the `java` command.*
+If you prefer compiling and running manually:
+
+```powershell
+# 1. Compile the project (include lib jars in classpath and JavaFX module paths)
+$cp = (Get-ChildItem -Path lib/*.jar | Select-Object -ExpandProperty FullName) -join ';'
+$jfx = "lib/javafx/javafx-sdk-21.0.2/lib"
+javac -d bin -cp $cp --module-path $jfx --add-modules javafx.controls,javafx.fxml (Get-ChildItem -Path src -Recurse -Filter *.java | Select-Object -ExpandProperty FullName)
+
+# 2. Copy the FXML and CSS assets to the bin directory (if not already copied)
+
+# 3. Run the compiled application
+$javacDir = (Get-Command javac).Source | Split-Path
+& "$javacDir\java.exe" --enable-native-access=ALL-UNNAMED --module-path $jfx --add-modules javafx.controls,javafx.fxml -cp "bin;$cp" tracker.ui.fx.ALIPApplication
+```
+
+*Note: You may see a warning about dynamically loading an agent (from the SQLite driver). This is safely ignored by `--enable-native-access=ALL-UNNAMED` in the run script.*
 
 ---
 
@@ -87,61 +96,39 @@ java -cp "bin;lib/sqlite-jdbc-3.45.1.0.jar;lib/slf4j-api-2.0.9.jar;lib/slf4j-nop
 
 ```text
 src/tracker/
-|-- Main.java                         # Bootstraps DB and launches UI
+|-- data/                             # Data Access Layer & Persistence
+|   |-- DBConnectionManager.java      # SQLite connection pooling
+|   |-- DatabaseSchema.java           # DDL, Migrations & Seeding
+|   |-- DataManager.java              # Object cache orchestration
+|   +-- dao/                          # SQL execution interfaces (UserDAO, ClassDAO, etc.)
 |
 |-- model/                            # Domain entities
-|   |-- User.java / UserRole.java     # Authentication & Authorization
-|   +-- Student.java / Subject.java   # Academic data models
+|   +-- User, Student, ClassRoom, etc.
 |
-|-- data/                             # Data Access Layer
-|   |-- DBConnectionManager.java      # SQLite connection pooling/setup
-|   |-- DatabaseSchema.java           # DDL & Seed data execution
-|   |-- DataManager.java              # Cache & DAO orchestration
-|   |-- DataMigration.java            # Legacy report importer
-|   +-- dao/                          # SQL execution classes
-|       |-- UserDAO.java
-|       |-- StudentDAO.java
-|       |-- ScoreDAO.java
-|       +-- ConfigDAO.java
+|-- security/                         # Cryptography & Access Control
+|   |-- PasswordHasher.java
+|   +-- SessionManager.java 
 |
-|-- security/                         # Security Layer
-|   |-- PasswordHasher.java           # SHA-256 + Salt cryptography
-|   +-- SessionManager.java           # Runtime context
-|
-|-- service/                          # Business / AI Logic (Untouched!)
-|   |-- AnalyticsService.java
+|-- service/                          # Business / AI Logic
+|   |-- StudentManagementService.java # Roster & Apache POI Imports
+|   |-- AnalyticsService.java         # Metric Aggregators
+|   |-- ProfileService.java           # Learning Style Mapping
+|   |-- InterventionEngine.java
 |   |-- SimulationService.java
-|   +-- ai/
-|       |-- RiskPredictor.java        # DB-configurable risk engine
-|       |-- TrendAnalyzer.java
-|       +-- AdaptivePlanner.java
+|   +-- ai/                           # Core algorithms (RiskPredictor, TrendAnalyzer)
 |
-+-- ui/                               # Presentation Layer
-    |-- LoginFrame.java               # Secure DB-backed login screen
-    |-- MainFrame.java                # Role-aware SaaS dashboard
-    +-- StyleConstants.java           # Modern palette & typography
++-- ui/fx/                            # Presentation Layer (JavaFX)
+    |-- ALIPApplication.java          # Application Entry Point
+    |-- ViewManager.java              # Role-aware generic scene router
+    |-- controller/                   # View logic (TeacherDashboardController, Admin, etc.)
+    +-- view/                         # FXML & CSS Layout files
 ```
-
----
-
-## 🧠 AI-Powered Risk Scoring (Preserved Core)
-
-The core AI risk engine remains fully intact, but its parameters are now configurable via the database by Admins.
-
-**Risk Score Formula:**
-`Risk = (W1 * AvgRisk) + (W2 * WeakDensity) + (W3 * LowestSeverity) + (W4 * TrendPenalty)`
-
-| Level    | Score Range | Description                              |
-|----------|-------------|------------------------------------------|
-| **High Risk**   | >= 60.0     | Immediate intervention recommended       |
-| **Moderate Risk** | 35.0 - 59.9 | Proactive measures needed              |
-| **Low Risk**    | < 35.0      | Student performing well                  |
 
 ---
 
 ## 📚 Technical Highlights
 
 - **Embedded Database:** SQLite 3.45 with Write-Ahead Logging (WAL) and enforced Foreign Keys.
-- **Clean Architecture:** Strict separation between Presentation (Swing), Business Logic (Services), and Persistence (DAOs).
-- **Security Best Practices:** Passwords are never stored or compared in plain text. Uses unique randomized salts per user.
-- **Graceful Degradation:** If the database cannot be initialized, the app halts safely with a user-friendly error dialog rather than crashing silently.
+- **Clean Architecture:** Strict separation between Presentation (JavaFX), Business Logic (Services), and Persistence (DAOs).
+- **Security Best Practices:** Passwords are never stored or compared in plain text. Uses unique randomized salts.
+- **Hardware Integration:** Bundles Apache POI for extensive Excel data migrations without requiring Microsoft Office installations.

@@ -12,9 +12,9 @@ import java.util.List;
  * Data Access Object for the 'students' table.
  *
  * Handles:
- *   - CRUD for student records
- *   - Loading students with their subjects and scores
- *   - Filtered queries (by ID, by risk status)
+ * - CRUD for student records
+ * - Loading students with their subjects and scores
+ * - Filtered queries (by ID, by risk status)
  */
 public class StudentDAO {
 
@@ -33,9 +33,45 @@ public class StudentDAO {
             ps.setString(2, name);
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next())
+                return rs.getInt(1);
         } catch (SQLException e) {
             System.err.println("StudentDAO.insert error: " + e.getMessage());
+        } finally {
+            DBConnectionManager.closeQuietly(rs);
+            DBConnectionManager.closeQuietly(ps);
+            DBConnectionManager.closeQuietly(conn);
+        }
+        return -1;
+    }
+
+    /**
+     * Inserts a new student record with Phase 6 fields. Returns the DB-generated
+     * primary key.
+     */
+    public int insert(Student student) {
+        String sql = "INSERT INTO students (student_id, name, class_id, roll_number, email) VALUES (?, ?, ?, ?, ?)";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBConnectionManager.getConnection();
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, student.getId());
+            ps.setString(2, student.getName());
+            if (student.getClassId() > 0) {
+                ps.setInt(3, student.getClassId());
+            } else {
+                ps.setNull(3, Types.INTEGER);
+            }
+            ps.setString(4, student.getRollNumber());
+            ps.setString(5, student.getEmail());
+            ps.executeUpdate();
+            rs = ps.getGeneratedKeys();
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (SQLException e) {
+            System.err.println("StudentDAO.insert(Student) error: " + e.getMessage());
         } finally {
             DBConnectionManager.closeQuietly(rs);
             DBConnectionManager.closeQuietly(ps);
@@ -57,7 +93,8 @@ public class StudentDAO {
             ps = conn.prepareStatement(sql);
             ps.setString(1, studentId);
             rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1) > 0;
+            if (rs.next())
+                return rs.getInt(1) > 0;
         } catch (SQLException e) {
             System.err.println("StudentDAO.existsByStudentId error: " + e.getMessage());
         } finally {
@@ -82,7 +119,8 @@ public class StudentDAO {
             ps = conn.prepareStatement(sql);
             ps.setString(1, studentId);
             rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt("id");
+            if (rs.next())
+                return rs.getInt("id");
         } catch (SQLException e) {
             System.err.println("StudentDAO.findDbIdByStudentId error: " + e.getMessage());
         } finally {
@@ -106,7 +144,8 @@ public class StudentDAO {
             ps = conn.prepareStatement(sql);
             ps.setString(1, studentId);
             rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("name");
+            if (rs.next())
+                return rs.getString("name");
         } catch (SQLException e) {
             System.err.println("StudentDAO.findNameByStudentId error: " + e.getMessage());
         } finally {
@@ -122,11 +161,11 @@ public class StudentDAO {
      * Uses a joined query for efficiency.
      */
     public List<Student> loadAllWithScores() {
-        String sql = "SELECT s.student_id, s.name, sub.subject_name, sc.score " +
-                     "FROM students s " +
-                     "LEFT JOIN student_scores sc ON s.id = sc.student_id " +
-                     "LEFT JOIN subjects sub ON sc.subject_id = sub.id " +
-                     "ORDER BY s.student_id, sub.subject_name";
+        String sql = "SELECT s.student_id, s.name, s.class_id, s.roll_number, s.email, sub.subject_name, sc.score " +
+                "FROM students s " +
+                "LEFT JOIN student_scores sc ON s.id = sc.student_id " +
+                "LEFT JOIN subjects sub ON sc.subject_id = sub.id " +
+                "ORDER BY s.student_id, sub.subject_name";
         List<Student> students = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -142,6 +181,9 @@ public class StudentDAO {
                 String sid = rs.getString("student_id");
                 if (!sid.equals(lastId)) {
                     current = new Student(sid, rs.getString("name"));
+                    current.setClassId(rs.getInt("class_id"));
+                    current.setRollNumber(rs.getString("roll_number"));
+                    current.setEmail(rs.getString("email"));
                     students.add(current);
                     lastId = sid;
                 }
@@ -164,12 +206,12 @@ public class StudentDAO {
      * Loads a single student with all scores by business student_id.
      */
     public Student loadByStudentId(String studentId) {
-        String sql = "SELECT s.student_id, s.name, sub.subject_name, sc.score " +
-                     "FROM students s " +
-                     "LEFT JOIN student_scores sc ON s.id = sc.student_id " +
-                     "LEFT JOIN subjects sub ON sc.subject_id = sub.id " +
-                     "WHERE s.student_id = ? " +
-                     "ORDER BY sub.subject_name";
+        String sql = "SELECT s.student_id, s.name, s.class_id, s.roll_number, s.email, sub.subject_name, sc.score " +
+                "FROM students s " +
+                "LEFT JOIN student_scores sc ON s.id = sc.student_id " +
+                "LEFT JOIN subjects sub ON sc.subject_id = sub.id " +
+                "WHERE s.student_id = ? " +
+                "ORDER BY sub.subject_name";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -183,6 +225,9 @@ public class StudentDAO {
             while (rs.next()) {
                 if (student == null) {
                     student = new Student(rs.getString("student_id"), rs.getString("name"));
+                    student.setClassId(rs.getInt("class_id"));
+                    student.setRollNumber(rs.getString("roll_number"));
+                    student.setEmail(rs.getString("email"));
                 }
                 String subName = rs.getString("subject_name");
                 if (subName != null) {
@@ -201,7 +246,33 @@ public class StudentDAO {
     }
 
     /**
-     * Updates a student's name by their business student_id.
+     * Updates a student's name, roll number, and email by their business
+     * student_id.
+     */
+    public boolean updateStudent(String studentId, String newName, String rollNumber, String email) {
+        String sql = "UPDATE students SET name = ?, roll_number = ?, email = ? WHERE student_id = ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = DBConnectionManager.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, newName);
+            ps.setString(2, rollNumber);
+            ps.setString(3, email);
+            ps.setString(4, studentId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("StudentDAO.updateStudent error: " + e.getMessage());
+            return false;
+        } finally {
+            DBConnectionManager.closeQuietly(ps);
+            DBConnectionManager.closeQuietly(conn);
+        }
+    }
+
+    /**
+     * Updates a student's name by their business student_id (backwards
+     * compatibility).
      */
     public boolean updateName(String studentId, String newName) {
         String sql = "UPDATE students SET name = ? WHERE student_id = ?";
@@ -255,7 +326,8 @@ public class StudentDAO {
             conn = DBConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next())
+                return rs.getInt(1);
         } catch (SQLException e) {
             System.err.println("StudentDAO.countAll error: " + e.getMessage());
         } finally {

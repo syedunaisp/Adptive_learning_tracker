@@ -42,9 +42,24 @@ public class ViewManager {
     }
 
     public void showDashboard() {
-        // Phase 4 will implement role-specific dashboards
-        // For now, show a placeholder or redirect based on role
-        System.out.println("[ViewManager] Dashboard not yet implemented (Phase 4). Role: " + currentRole);
+        if (currentRole == null) {
+            showLogin();
+            return;
+        }
+        switch (currentRole) {
+            case "STUDENT":
+                loadView("/tracker/ui/fx/view/StudentDashboardView.fxml");
+                break;
+            case "TEACHER":
+                loadView("/tracker/ui/fx/view/TeacherDashboardView.fxml");
+                break;
+            case "ADMIN":
+                loadView("/tracker/ui/fx/view/AdminDashboardView.fxml");
+                break;
+            default:
+                loadView("/tracker/ui/fx/view/TeacherDashboardView.fxml");
+                break;
+        }
     }
 
     // =========================================================================

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="tracker.ui.fx.controller.AdminDashboardController"
+            styleClass="root">
+
+    <!-- TOP: Header -->
+    <top>
+        <HBox styleClass="card" spacing="16" alignment="CENTER_LEFT"
+              style="-fx-background-radius: 0; -fx-border-radius: 0;">
+            <padding><Insets top="12" right="24" bottom="12" left="24"/></padding>
+            <Label text="ALIP" styleClass="form-title" style="-fx-font-size: 18px;"/>
+            <Label text="— Admin Panel" styleClass="secondary"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" text="Admin" styleClass="secondary"/>
+            <Button text="Logout" styleClass="button-danger" onAction="#handleLogout"
+                    style="-fx-padding: 6 16;"/>
+        </HBox>
+    </top>
+
+    <!-- LEFT: Sidebar -->
+    <left>
+        <VBox styleClass="card" spacing="4" prefWidth="300"
+              style="-fx-background-radius: 0; -fx-border-radius: 0;">
+            <padding><Insets top="16" right="8" bottom="16" left="8"/></padding>
+            <Label text="ADMIN" styleClass="secondary" style="-fx-padding: 0 8 8 8;"/>
+            <Button text="📊  Overview" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showOverview"/>
+            <Button text="👤  User Management" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showUsers"/>
+            <Button text="🔧  Risk Configuration" styleClass="button"
+                    maxWidth="Infinity" alignment="CENTER_LEFT" onAction="#showSettings"/>
+        </VBox>
+    </left>
+
+    <!-- CENTER: Dynamic content area -->
+    <center>
+        <StackPane fx:id="contentArea">
+            <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+        </StackPane>
+    </center>
+</BorderPane>

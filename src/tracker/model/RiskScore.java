@@ -40,14 +40,14 @@ public class RiskScore {
     }
 
     // --- Weights (must sum to 1.0) ---
-    public static final double W_AVERAGE = 0.35;
-    public static final double W_WEAK_COUNT = 0.25;
-    public static final double W_LOWEST = 0.25;
-    public static final double W_TREND = 0.15;
+    public static double W_AVERAGE = 0.35;
+    public static double W_WEAK_COUNT = 0.25;
+    public static double W_LOWEST = 0.25;
+    public static double W_TREND = 0.15;
 
     // --- Thresholds ---
-    public static final double THRESHOLD_HIGH = 60.0;
-    public static final double THRESHOLD_MODERATE = 30.0;
+    public static double THRESHOLD_HIGH = 60.0;
+    public static double THRESHOLD_MODERATE = 30.0;
 
     private final double numericScore;
     private final Level level;

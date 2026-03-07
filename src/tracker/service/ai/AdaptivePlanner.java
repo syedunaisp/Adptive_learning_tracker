@@ -12,10 +12,10 @@ import java.util.*;
  * Adaptive recommendation planner that generates dynamic, context-aware
  * study recommendations based on multiple factors:
  *
- *   1. Risk severity level
- *   2. Individual subject weaknesses and their scores
- *   3. Category-level weakness patterns (e.g., weak across all STEM)
- *   4. Performance trend direction
+ * 1. Risk severity level
+ * 2. Individual subject weaknesses and their scores
+ * 3. Category-level weakness patterns (e.g., weak across all STEM)
+ * 4. Performance trend direction
  *
  * This service delegates subject-specific recommendations to
  * {@link tracker.service.RecommendationEngine} and layers additional
@@ -35,8 +35,8 @@ public class AdaptivePlanner {
      * @return ordered list of recommendation strings
      */
     public List<String> generateRecommendations(Student student,
-                                                 RiskScore risk,
-                                                 TrendDirection trend) {
+            RiskScore risk,
+            TrendDirection trend) {
         List<String> recommendations = new ArrayList<>();
 
         if (student == null || student.getSubjects() == null
@@ -66,6 +66,9 @@ public class AdaptivePlanner {
             recommendations.add("   -> Consider mentoring peers who may need support.");
         }
 
+        // --- 6. Next Best Action Steps ---
+        addActionRecommendations(recommendations, student, weakSubjects, trend);
+
         return recommendations;
     }
 
@@ -73,8 +76,8 @@ public class AdaptivePlanner {
      * Adds urgency-level recommendations based on risk severity.
      */
     private void addSeverityRecommendations(List<String> recs,
-                                             RiskScore risk,
-                                             List<Subject> weakSubjects) {
+            RiskScore risk,
+            List<Subject> weakSubjects) {
         switch (risk.getLevel()) {
             case HIGH:
                 recs.add("[CRITICAL] High Risk Detected (Score: "
@@ -105,9 +108,10 @@ public class AdaptivePlanner {
      * and adds strategic recommendations.
      */
     private void addCategoryRecommendations(List<String> recs,
-                                             List<Subject> weakSubjects,
-                                             List<Subject> allSubjects) {
-        if (weakSubjects.isEmpty()) return;
+            List<Subject> weakSubjects,
+            List<Subject> allSubjects) {
+        if (weakSubjects.isEmpty())
+            return;
 
         // Count weak subjects per category
         Map<SubjectCategory, Integer> weakByCategory = new EnumMap<>(SubjectCategory.class);
@@ -126,11 +130,13 @@ public class AdaptivePlanner {
         // If all subjects in a category are weak, flag it
         for (Map.Entry<SubjectCategory, Integer> entry : weakByCategory.entrySet()) {
             SubjectCategory cat = entry.getKey();
-            if (cat == SubjectCategory.UNCATEGORIZED) continue;
+            if (cat == SubjectCategory.UNCATEGORIZED)
+                continue;
 
             int weakCount = entry.getValue();
             Integer total = totalByCategory.get(cat);
-            if (total == null) continue;
+            if (total == null)
+                continue;
 
             if (weakCount >= 2 && weakCount == total) {
                 recs.add("[CATEGORY ALERT] Weakness across entire " + cat.getDisplayName() + " category");
@@ -148,8 +154,9 @@ public class AdaptivePlanner {
      * Adds per-subject recommendations for each weak subject.
      */
     private void addSubjectRecommendations(List<String> recs,
-                                            List<Subject> weakSubjects) {
-        if (weakSubjects.isEmpty()) return;
+            List<Subject> weakSubjects) {
+        if (weakSubjects.isEmpty())
+            return;
 
         // Sort by score ascending (worst first)
         List<Subject> sorted = new ArrayList<>(weakSubjects);
@@ -186,8 +193,8 @@ public class AdaptivePlanner {
      * Adds trend-based strategic recommendations.
      */
     private void addTrendRecommendations(List<String> recs,
-                                          TrendDirection trend,
-                                          RiskScore risk) {
+            TrendDirection trend,
+            RiskScore risk) {
         recs.add("");
         recs.add("--- Trend-Based Advice ---");
 
@@ -215,6 +222,34 @@ public class AdaptivePlanner {
                 recs.add("   -> Positive momentum detected! Continue current strategies.");
                 recs.add("   -> Build on this progress by setting stretch goals.");
                 break;
+        }
+    }
+
+    /**
+     * Adds actionable next steps based on the student's current profile.
+     */
+    private void addActionRecommendations(List<String> recs,
+            Student student,
+            List<Subject> weakSubjects,
+            TrendDirection trend) {
+        recs.add("");
+        recs.add("[ACTION] Recommended Next Steps");
+
+        if (!weakSubjects.isEmpty()) {
+            Subject weakest = weakSubjects.stream()
+                    .min(Comparator.comparingDouble(Subject::getScore))
+                    .orElse(weakSubjects.get(0));
+
+            recs.add("   -> Solve 5 practice problems in " + weakest.getSubjectName() + " this week.");
+            recs.add("   -> Review " + weakest.getSubjectName()
+                    + " notes for 15 minutes daily using spaced repetition.");
+        } else {
+            recs.add("   -> Attempt a timed practice test before the next exam to maintain high scores.");
+            recs.add("   -> Review notes for 10 minutes using spaced repetition to reinforce memory.");
+        }
+
+        if (trend == TrendDirection.DECLINING) {
+            recs.add("   -> Schedule a check-in with your teacher to discuss recent challenges.");
         }
     }
 }

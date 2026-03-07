@@ -420,4 +420,42 @@ public class AnalyticsService {
         }
         return count;
     }
+
+    /**
+     * Returns the count of students at MODERATE risk level.
+     *
+     * @param students all students
+     * @return number of moderate-risk students
+     */
+    public int getModerateRiskCount(List<Student> students) {
+        int count = 0;
+        for (Student s : students) {
+            if (s.getSubjects().isEmpty())
+                continue;
+            RiskScore risk = riskPredictor.assessRisk(s);
+            if (risk.getLevel() == Level.MODERATE) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Returns the count of students at LOW risk level.
+     *
+     * @param students all students
+     * @return number of low-risk students
+     */
+    public int getLowRiskCount(List<Student> students) {
+        int count = 0;
+        for (Student s : students) {
+            if (s.getSubjects().isEmpty())
+                continue;
+            RiskScore risk = riskPredictor.assessRisk(s);
+            if (risk.getLevel() == Level.LOW) {
+                count++;
+            }
+        }
+        return count;
+    }
 }

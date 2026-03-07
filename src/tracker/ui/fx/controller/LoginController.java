@@ -32,7 +32,23 @@ public class LoginController implements ViewManagerAware {
     }
 
     @FXML
+    private void initialize() {
+        // Allow Enter key on username field to jump to password or trigger login
+        usernameField.setOnAction(e -> {
+            if (passwordField.getText().isEmpty()) {
+                passwordField.requestFocus();
+            } else {
+                handleLogin();
+            }
+        });
+    }
+
+    @FXML
     private void handleLogin() {
+        // Clear previous error state on every attempt
+        errorLabel.setText("");
+        errorLabel.getStyleClass().removeAll("error-label", "success-label");
+
         String username = usernameField.getText().trim();
         String password = passwordField.getText();
 
@@ -59,11 +75,10 @@ public class LoginController implements ViewManagerAware {
         }
 
         // Start session with linked student business ID
-        String studentId = null;
+        String studentId = user.getLinkedStudentId();
         int studentDbId = -1;
         if (user.getLinkedStudentDbId() != null) {
             studentDbId = user.getLinkedStudentDbId();
-            studentId = userDAO.resolveLinkedStudentId(studentDbId);
         }
         SessionManager.login(user, studentId);
 

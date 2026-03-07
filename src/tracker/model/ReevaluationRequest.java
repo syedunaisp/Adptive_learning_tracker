@@ -13,13 +13,17 @@ public class ReevaluationRequest {
     private Integer resolvedBy; // nullable — user ID of resolver
     private String resolutionNotes;
     private String resolvedAt;
+    private String subjectName;
+    private Integer teacherId;
+    private Double updatedMarks;
 
     public ReevaluationRequest() {
     }
 
     public ReevaluationRequest(int id, int scoreId, int studentId, String reason,
             String status, String submittedAt, Integer resolvedBy,
-            String resolutionNotes, String resolvedAt) {
+            String resolutionNotes, String resolvedAt,
+            String subjectName, Integer teacherId, Double updatedMarks) {
         this.id = id;
         this.scoreId = scoreId;
         this.studentId = studentId;
@@ -29,6 +33,9 @@ public class ReevaluationRequest {
         this.resolvedBy = resolvedBy;
         this.resolutionNotes = resolutionNotes;
         this.resolvedAt = resolvedAt;
+        this.subjectName = subjectName;
+        this.teacherId = teacherId;
+        this.updatedMarks = updatedMarks;
     }
 
     public int getId() {
@@ -103,8 +110,32 @@ public class ReevaluationRequest {
         this.resolvedAt = resolvedAt;
     }
 
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+    public Integer getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Integer teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public Double getUpdatedMarks() {
+        return updatedMarks;
+    }
+
+    public void setUpdatedMarks(Double updatedMarks) {
+        this.updatedMarks = updatedMarks;
+    }
+
     @Override
     public String toString() {
-        return String.format("Reeval[score=%d, status=%s]", scoreId, status);
+        return String.format("Reeval[subject=%s, status=%s]", subjectName, status);
     }
 }

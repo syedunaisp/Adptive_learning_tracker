@@ -11,6 +11,12 @@ public class Student {
 
     private String id;
     private String name;
+
+    // New fields for Phase 6 Student Management
+    private int classId;
+    private String rollNumber;
+    private String email;
+
     private List<Subject> subjects;
 
     /**
@@ -118,6 +124,30 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
+
+    public String getRollNumber() {
+        return rollNumber;
+    }
+
+    public void setRollNumber(String rollNumber) {
+        this.rollNumber = rollNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setSubjects(List<Subject> subjects) {

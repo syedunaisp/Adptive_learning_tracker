@@ -27,7 +27,7 @@ ALIP (Adaptive Learning Intelligence Platform) v4.0 extends the existing v3.0 Ja
 
 ## Constraints
 
-- **Language:** Java 21+, no additional language runtimes
+- **Language:** Java 21+, no additional language runtimes (can use java libraries if required)
 - **Database:** Embedded SQLite (existing `alip_data.db`)
 - **UI Framework:** JavaFX (migration from Swing)
 - **Backend Stability:** `model/`, `data/`, `data.dao/`, `service/`, `service.ai/`, `security/` packages must not break

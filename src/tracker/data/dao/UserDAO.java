@@ -13,10 +13,10 @@ import java.util.List;
  * Data Access Object for the 'users' table.
  *
  * Handles:
- *   - Authentication (username + password verification)
- *   - CRUD operations on user accounts
- *   - Role-based queries
- *   - Linking student accounts
+ * - Authentication (username + password verification)
+ * - CRUD operations on user accounts
+ * - Role-based queries
+ * - Linking student accounts
  */
 public class UserDAO {
 
@@ -30,9 +30,9 @@ public class UserDAO {
      */
     public User authenticate(String username, String plainPassword) {
         String sql = "SELECT u.id, u.username, u.password_hash, u.role_id, u.linked_student_id, " +
-                     "u.enabled, u.created_at, r.role_name " +
-                     "FROM users u JOIN roles r ON u.role_id = r.id " +
-                     "WHERE u.username = ?";
+                "u.enabled, u.created_at, r.role_name " +
+                "FROM users u JOIN roles r ON u.role_id = r.id " +
+                "WHERE u.username = ?";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -44,8 +44,10 @@ public class UserDAO {
             if (rs.next()) {
                 String storedHash = rs.getString("password_hash");
                 boolean enabled = rs.getInt("enabled") == 1;
-                if (!enabled) return null;
-                if (!PasswordHasher.verify(plainPassword, storedHash)) return null;
+                if (!enabled)
+                    return null;
+                if (!PasswordHasher.verify(plainPassword, storedHash))
+                    return null;
                 return mapUser(rs);
             }
             return null;
@@ -64,9 +66,9 @@ public class UserDAO {
      */
     public User findByUsername(String username) {
         String sql = "SELECT u.id, u.username, u.password_hash, u.role_id, u.linked_student_id, " +
-                     "u.enabled, u.created_at, r.role_name " +
-                     "FROM users u JOIN roles r ON u.role_id = r.id " +
-                     "WHERE u.username = ?";
+                "u.enabled, u.created_at, r.role_name " +
+                "FROM users u JOIN roles r ON u.role_id = r.id " +
+                "WHERE u.username = ?";
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -75,7 +77,8 @@ public class UserDAO {
             ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             rs = ps.executeQuery();
-            if (rs.next()) return mapUser(rs);
+            if (rs.next())
+                return mapUser(rs);
             return null;
         } catch (SQLException e) {
             System.err.println("findByUsername error: " + e.getMessage());
@@ -90,15 +93,16 @@ public class UserDAO {
     /**
      * Creates a new user with a hashed password.
      *
-     * @param username      the username
-     * @param plainPassword the plain-text password (will be hashed)
-     * @param role          the user role
-     * @param linkedStudentDbId  the DB primary key of linked student (null if not student)
+     * @param username          the username
+     * @param plainPassword     the plain-text password (will be hashed)
+     * @param role              the user role
+     * @param linkedStudentDbId the DB primary key of linked student (null if not
+     *                          student)
      * @return true if created successfully
      */
     public boolean createUser(String username, String plainPassword, UserRole role, Integer linkedStudentDbId) {
         String sql = "INSERT INTO users (username, password_hash, role_id, linked_student_id, enabled) " +
-                     "VALUES (?, ?, ?, ?, 1)";
+                "VALUES (?, ?, ?, ?, 1)";
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -107,8 +111,10 @@ public class UserDAO {
             ps.setString(1, username);
             ps.setString(2, PasswordHasher.hash(plainPassword));
             ps.setInt(3, roleToId(role));
-            if (linkedStudentDbId != null) ps.setInt(4, linkedStudentDbId);
-            else ps.setNull(4, Types.INTEGER);
+            if (linkedStudentDbId != null)
+                ps.setInt(4, linkedStudentDbId);
+            else
+                ps.setNull(4, Types.INTEGER);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             System.err.println("createUser error: " + e.getMessage());
@@ -124,8 +130,8 @@ public class UserDAO {
      */
     public List<User> findAll() {
         String sql = "SELECT u.id, u.username, u.password_hash, u.role_id, u.linked_student_id, " +
-                     "u.enabled, u.created_at, r.role_name " +
-                     "FROM users u JOIN roles r ON u.role_id = r.id ORDER BY u.id";
+                "u.enabled, u.created_at, r.role_name " +
+                "FROM users u JOIN roles r ON u.role_id = r.id ORDER BY u.id";
         List<User> users = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -134,7 +140,8 @@ public class UserDAO {
             conn = DBConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
-            while (rs.next()) users.add(mapUser(rs));
+            while (rs.next())
+                users.add(mapUser(rs));
         } catch (SQLException e) {
             System.err.println("findAll users error: " + e.getMessage());
         } finally {
@@ -177,8 +184,10 @@ public class UserDAO {
         try {
             conn = DBConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
-            if (studentDbId != null) ps.setInt(1, studentDbId);
-            else ps.setNull(1, Types.INTEGER);
+            if (studentDbId != null)
+                ps.setInt(1, studentDbId);
+            else
+                ps.setNull(1, Types.INTEGER);
             ps.setInt(2, userId);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -202,7 +211,8 @@ public class UserDAO {
             conn = DBConnectionManager.getConnection();
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next())
+                return rs.getInt(1);
         } catch (SQLException e) {
             System.err.println("countAll users error: " + e.getMessage());
         } finally {
@@ -226,7 +236,8 @@ public class UserDAO {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, linkedStudentDbId);
             rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("student_id");
+            if (rs.next())
+                return rs.getString("student_id");
         } catch (SQLException e) {
             System.err.println("resolveLinkedStudentId error: " + e.getMessage());
         } finally {
@@ -304,25 +315,36 @@ public class UserDAO {
         u.setRole(roleFromName(rs.getString("role_name")));
         int linkedId = rs.getInt("linked_student_id");
         u.setLinkedStudentDbId(rs.wasNull() ? null : linkedId);
+        // Resolve the business student_id from the DB primary key
+        if (u.getLinkedStudentDbId() != null) {
+            u.setLinkedStudentId(resolveLinkedStudentId(u.getLinkedStudentDbId()));
+        }
         u.setEnabled(rs.getInt("enabled") == 1);
         u.setCreatedAt(rs.getString("created_at"));
         return u;
     }
 
     private UserRole roleFromName(String name) {
-        if (name == null) return UserRole.STUDENT;
+        if (name == null)
+            return UserRole.STUDENT;
         switch (name.toUpperCase()) {
-            case "ADMIN": return UserRole.ADMIN;
-            case "TEACHER": return UserRole.TEACHER;
-            default: return UserRole.STUDENT;
+            case "ADMIN":
+                return UserRole.ADMIN;
+            case "TEACHER":
+                return UserRole.TEACHER;
+            default:
+                return UserRole.STUDENT;
         }
     }
 
     private int roleToId(UserRole role) {
         switch (role) {
-            case ADMIN: return 1;
-            case TEACHER: return 2;
-            default: return 3;
+            case ADMIN:
+                return 1;
+            case TEACHER:
+                return 2;
+            default:
+                return 3;
         }
     }
 }
